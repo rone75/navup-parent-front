@@ -535,7 +535,8 @@ figure {
 .champ > label {
   font-weight: 650;
 }
-.champ input {
+.champ input,
+.champ textarea {
   width: 100%;
   min-height: 3rem;
   padding: 0.6rem 0.85rem;
@@ -545,7 +546,14 @@ figure {
   color: var(--encre);
   font: inherit;
 }
-.champ input::placeholder {
+.champ textarea {
+  display: block;
+  min-height: 6rem;
+  line-height: 1.45;
+  resize: vertical;
+}
+.champ input::placeholder,
+.champ textarea::placeholder {
   color: var(--encre-2);
 }
 .champ small {
@@ -1225,7 +1233,8 @@ li:first-child > .etiquette {
 /* ---------- Espace personnel ---------- */
 .espace {
   display: grid;
-  grid-template-columns: 7.25rem minmax(0, 1fr);
+  /* Le rail tient le mot le plus long de la navigation, « Rendez-vous », sur une ligne */
+  grid-template-columns: 8.25rem minmax(0, 1fr);
   min-height: calc(100dvh - 1.2rem);
 }
 /* La poignée de la porte : la navigation */
@@ -1257,8 +1266,9 @@ li:first-child > .etiquette {
   display: grid;
   justify-items: center;
   gap: 0.1rem;
-  width: 5.75rem;
+  width: 6.75rem;
   padding: 0.6rem 0 0.5rem;
+  white-space: nowrap;
   border-radius: 999px;
   color: var(--encre);
   font-size: var(--t-petit);
@@ -1457,6 +1467,196 @@ li:first-child > .etiquette {
   width: 46%;
 }
 
+/* ---------- Rendez-vous : le choix d'un créneau, un rendez-vous et ses gestes ---------- */
+/* Les jours sont des cases de calendrier, les heures des pilules : blanches comme tout ce qui se saisit, au trait
+   d'encre ; ce qui est choisi passe en aplat d'encre, comme une vitesse du poste. La mise en rangs se règle sur la
+   feuille qui porte les créneaux, pas sur l'écran : quatre jours par rang, huit dès qu'elle en a la place. */
+.prise {
+  display: block;
+  container-type: inline-size;
+  margin-top: 1rem;
+}
+.prise-jours,
+.prise-heures {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.4rem;
+}
+.prise-jour,
+.prise-heure {
+  border: var(--trait) solid var(--encre);
+  background: var(--blanc);
+  color: var(--encre);
+  font: inherit;
+  font-size: var(--t-petit);
+  font-weight: 650;
+  cursor: pointer;
+  transition: background-color 0.15s;
+}
+.prise-jour {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 0.15rem;
+  min-height: 4.75rem;
+  padding: 0.45rem 0.15rem;
+  border-radius: var(--r-petit);
+  line-height: 1.1;
+}
+.prise-jour .chiffre {
+  font-size: 1.75rem;
+  color: var(--bleu);
+}
+.prise-heure {
+  min-height: var(--cible);
+  padding: 0 0.25rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.prise-jour[aria-pressed='true'],
+.prise-heure[aria-pressed='true'] {
+  background: var(--encre);
+  color: var(--feuille);
+}
+.prise-jour[aria-pressed='true'] .chiffre {
+  color: inherit;
+}
+@media (hover: hover) {
+  .prise-jour:not([aria-pressed='true']):hover,
+  .prise-heure:not([aria-pressed='true']):hover {
+    background: var(--feuille-2);
+  }
+}
+.prise-jour:active,
+.prise-heure:active {
+  translate: 0 1px;
+}
+.prise > .lien {
+  margin-top: 0.2rem;
+}
+.prise-quand {
+  margin: 1.1rem 0 0;
+}
+.prise-quand .secondaire {
+  font-size: var(--t-petit);
+}
+.prise-partie {
+  padding-top: 0.75rem;
+}
+.prise-partie-nom {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-size: var(--t-petit);
+  font-weight: 650;
+  color: var(--encre-2);
+}
+.prise-vide {
+  margin: 0;
+}
+@container (min-width: 34rem) {
+  .prise-jours {
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
+  .prise-partie {
+    display: grid;
+    grid-template-columns: 6.25rem minmax(0, 1fr);
+    gap: 0.75rem;
+    align-items: start;
+  }
+  .prise-partie-nom {
+    margin: 0;
+    padding-top: 0.65rem;
+  }
+  .prise-heures {
+    grid-template-columns: repeat(auto-fill, minmax(4.75rem, 1fr));
+  }
+}
+
+/* Un filet prend le ton d'en dessous de sa feuille : pli de la feuille, ou orange sur une feuille-note */
+.feuille {
+  --filet: var(--feuille-2);
+}
+.feuille.note {
+  --filet: var(--orange);
+}
+.feuille.note fieldset {
+  border-top-color: var(--filet);
+}
+
+/* La saisie qui suit le choix du créneau, et le rappel du créneau au-dessus du bouton */
+.rdv-prise {
+  display: block;
+}
+.rdv-prise > h3 {
+  margin: 1.75rem 0 0.5rem;
+}
+.rdv-saisie {
+  margin-top: 1.5rem;
+  padding-top: 1.25rem;
+  border-top: var(--trait) solid var(--filet, var(--porte-2));
+}
+.rdv-rappel {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  margin: 1.1rem 0 1rem;
+}
+.rdv-rappel .ico {
+  margin-top: 0.1rem;
+  color: var(--bleu);
+}
+.rdv-envoye {
+  margin-top: 1.75rem;
+  padding-top: 1.25rem;
+  border-top: var(--trait) solid var(--filet, var(--porte-2));
+}
+.rdv-envoye h3 {
+  margin-bottom: 0.6rem;
+}
+.adresse {
+  overflow-wrap: anywhere;
+}
+/* Un titre qui reçoit le focus pour être annoncé n'est pas une commande : pas d'anneau */
+[tabindex='-1']:focus {
+  outline: none;
+}
+
+/* Un rendez-vous : le jour et l'heure en titre, l'état écrit à côté, puis les gestes */
+.rdv {
+  display: block;
+}
+.rdv .semaine-tete {
+  margin-bottom: 0.35rem;
+}
+.rdv-quoi {
+  margin: 0;
+}
+.rdv .refus {
+  margin: 1rem 0 0;
+}
+.rdv .actions {
+  margin-top: 1.1rem;
+}
+.rdv-note {
+  margin: 0.9rem 0 0;
+}
+.rdv-geste {
+  margin-top: 1.25rem;
+  padding-top: 1.1rem;
+  border-top: var(--trait) solid var(--filet, var(--porte-2));
+}
+.rdv-ligne {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.1rem 1rem;
+}
+.rdv-ligne strong {
+  display: block;
+  font-weight: 620;
+}
+
 /* ---------- Le seul mouvement signé : les pièces se posent sur la porte ---------- */
 @media (prefers-reduced-motion: no-preference) {
   .se-pose {
@@ -1526,13 +1726,14 @@ li:first-child > .etiquette {
   .rail nav {
     flex-direction: row;
     margin: 0;
-    width: min(100%, 24rem);
+    width: min(100%, 27rem);
     justify-content: space-between;
   }
+  /* Quatre entrées de longueurs inégales : chacune prend la place de son mot, le reste se partage */
   .rail nav a {
     width: auto;
-    flex: 1;
-    padding: 0.35rem 0 0.3rem;
+    flex: 1 1 auto;
+    padding: 0.35rem 0.4rem 0.3rem;
   }
   .sujet {
     grid-template-columns: minmax(0, 1fr);
@@ -1542,6 +1743,19 @@ li:first-child > .etiquette {
   }
   .sujet-cote .poste {
     display: none;
+  }
+}
+@media (max-width: 22.5rem) {
+  /* Très petit téléphone (360 px et moins) : la barre se resserre pour que ses quatre mots tiennent sur une ligne */
+  .rail {
+    padding-inline: 0.3rem;
+  }
+  .rail nav {
+    gap: 0.1rem;
+    padding: 0.25rem;
+  }
+  .rail nav a {
+    padding-inline: 0.15rem;
   }
 }
 @media (min-width: 56.3125rem) {
@@ -1722,7 +1936,8 @@ li:first-child > .etiquette {
   color: var(--encre-2);
   font-size: var(--t-petit);
 }
-.refus[role='note'] {
+.refus[role='note'],
+.refus.info {
   border-color: var(--encre);
   background: var(--jaune);
   color: var(--encre);

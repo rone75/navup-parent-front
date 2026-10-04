@@ -50,3 +50,17 @@ export function accesRefuse(err: unknown): Acces | null {
 export function dateDeblocage(err: unknown): string | null {
   return corps(err)?.date_deblocage ?? null;
 }
+
+/** Raison d'un refus des rendez-vous : « creneau » (il vient d'être pris), « complet », « delai » ; null sinon. */
+export function motifRefus(err: unknown): string | null {
+  const motif = (corps(err) as { motif?: unknown } | null)?.motif;
+  return typeof motif === 'string' ? motif : null;
+}
+
+/**
+ * Ce qu'un refus des rendez-vous rend en plus de sa phrase : les créneaux à jour (`prise`), le rendez-vous, la vue de
+ * l'espace. Le corps de l'erreur, lu comme `T` : chaque champ est à tester avant de s'en servir.
+ */
+export function suiteRefus<T>(err: unknown): Partial<T> {
+  return (corps(err) ?? {}) as Partial<T>;
+}

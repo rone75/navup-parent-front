@@ -4,7 +4,7 @@ L'appli des parents de NavUp Academy : la **page publique** qui explique et vend
 
 Elle parle à deux API : `navup-parent-api` (`/var/www/navup-parent-api`, l'espace personnel) et les endpoints publics de la Tour de contrôle (`/var/www/navup-api` : offre, commande, lien d'accès). Documents de référence : `PRODUCT.md` (le produit), `DESIGN.md` (le système visuel « La porte du frigo »), le cahier de l'écosystème (`~/Documents/nabil/Cahier de charges NavUp Academy.pdf`), les README des deux API.
 
-Cette version : page publique avec achat, création du mot de passe par lien, connexion, accueil, programme, sujet (fiche et lecteur audio), progression, profil. Restent à venir : rendez-vous en ligne, annonces, ressources, communauté, notifications, hors-ligne.
+Cette version : page publique avec achat, création du mot de passe par lien, connexion, accueil, programme, sujet (fiche et lecteur audio), progression, profil ; rendez-vous en ligne (découverte sur la page publique, gestion par lien, accompagnement dans l'espace). Restent à venir : annonces, ressources, communauté, notifications, hors-ligne.
 
 ## Démarrage
 

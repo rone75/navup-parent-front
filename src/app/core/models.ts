@@ -141,3 +141,70 @@ export interface Offre {
 export type SuiteCommande = { suite: 'paiement'; url: string } | { suite: 'email' };
 
 export type EtatPaiement = 'ok' | 'annule' | 'regle' | 'invalide' | 'attente' | 'indisponible';
+
+// ---------- Rendez-vous en ligne (étape 6b) ----------
+// Dates et heures toujours de Paris, en chaînes telles que l'API les donne : aucune n'est convertie ici.
+
+export type TypeRdv = 'decouverte' | 'suivi' | 'bilan' | 'autre';
+export type CanalRdv = 'visio' | 'telephone' | 'presentiel';
+export type EtatRdv = 'confirme' | 'a_confirmer' | 'annule' | 'passe';
+
+/** Un créneau : un jour (AAAA-MM-JJ) et une heure (HH:MM), heure de Paris. */
+export interface Creneau {
+  date: string;
+  heure: string;
+}
+
+/** Les créneaux proposés pour un type de rendez-vous (une « prise »). `ouvert` faux : rien n'est proposé. */
+export interface Prise {
+  ouvert: boolean;
+  type: TypeRdv;
+  /** Durée du rendez-vous, en minutes. */
+  duree: number | null;
+  canaux: CanalRdv[];
+  fuseau: string;
+  jours: { date: string; creneaux: string[] }[];
+}
+
+/** Un rendez-vous tel que le parent le voit : ni note, ni nom. L'état et les gestes permis viennent de l'API. */
+export interface Rdv {
+  id_rdv: number;
+  type: TypeRdv;
+  etat: EtatRdv;
+  /** « AAAA-MM-JJ HH:MM:SS », heure de Paris. */
+  date_debut: string;
+  /** En minutes. */
+  duree: number;
+  canal: CanalRdv;
+  /** Adresse de la visio d'un rendez-vous confirmé, s'il y en a une. */
+  visio: string | null;
+  annulable: boolean;
+  deplacable: boolean;
+}
+
+/** Ce que rend le lien de gestion d'un rendez-vous (v1/public/rendez-vous/gestion/). */
+export interface VueRdvLien {
+  rdv: Rdv;
+  /** Créneaux où le déplacer, tant qu'il est déplaçable. */
+  prise: Prise | null;
+  /** Annuler ou déplacer en ligne se fait jusqu'à ce nombre d'heures avant l'heure dite. */
+  delai_heures: number;
+}
+
+/** Les rendez-vous d'un parent inscrit (v1/public/rendez-vous/espace/). */
+export interface VueRdvEspace {
+  avenir: Rdv[];
+  avant: Rdv[];
+  /** Créneaux d'un rendez-vous d'accompagnement. */
+  prise: Prise;
+  peut_prendre: boolean;
+  /** Le dossier a déjà un numéro de téléphone : inutile de le redemander. */
+  telephone_connu: boolean;
+  delai_heures: number;
+}
+
+/** Invitation de calendrier d'un rendez-vous : le nom du fichier et son contenu (.ics). */
+export interface Invitation {
+  nom: string;
+  ics: string;
+}

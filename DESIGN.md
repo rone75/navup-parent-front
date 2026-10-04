@@ -322,6 +322,9 @@ L'aimant est un disque de 2,25 rem, centré sur le bord haut de sa feuille, ou c
 - **Étiquette de prix :** à côté du bouton de la une, un petit rectangle jaune bordé (coins de 8 px) : le prix en chiffre de 1,75 rem et « sans abonnement ».
 - Le montant vient toujours de l'API. Tant qu'il n'est pas lu, le ticket n'affiche pas de chiffre et l'étiquette n'apparaît pas.
 
+### Le choix d'un créneau
+Composant `prise-rdv`, le même partout (page publique, lien de gestion, espace). Les jours en cases-aimants à bord d'encre (jour abrégé, quantième en chiffre de marque bleu, mois), huit au plus puis « Voir plus de jours » ; le jour choisi passe à l'encre pleine. Dessous, le jour écrit en toutes lettres suivi de « heure de Paris », puis les heures en pastilles rondes rangées « Matin » et « Après-midi ». Le geste final dit le créneau en toutes lettres (« Déplacer au vendredi 9 octobre à 11 h »). Un rendez-vous se montre sur une feuille à aimant : le moment en titre de marque, son état en toutes lettres à droite, ses gestes en liens (« Déplacer », « Annuler », confirmation en place) ; aucun état n'est mesuré du parent.
+
 ### Saisie
 - **Champ :** libellé au-dessus (650), champ blanc au trait d'encre, rayon de 12 px, 48 px de haut ; aide dessous en label `encre-2`.
 - **Case et bouton radio :** natifs, teintés de bleu (`accent-color`), 1,5 rem, dans une ligne de 44 px.

@@ -23,8 +23,9 @@ export const routes: Routes = [
     loadComponent: () => import('./features/public/legal-page').then((m) => m.LegalPage),
   },
 
-  // Retour de la page de paiement, accès : rendus dans le navigateur
+  // Retour de la page de paiement, gestion d'un rendez-vous par son lien, accès : rendus dans le navigateur
   { path: 'paiement', title: 'Votre paiement · NavUp', loadComponent: () => import('./features/public/paiement-page').then((m) => m.PaiementPage) },
+  { path: 'rendez-vous', title: 'Votre rendez-vous · NavUp', loadComponent: () => import('./features/public/rendez-vous-page').then((m) => m.RendezVousPage) },
   {
     path: 'connexion',
     title: 'Connexion · NavUp',
@@ -43,6 +44,11 @@ export const routes: Routes = [
       { path: '', pathMatch: 'full', title: 'Votre espace · NavUp', loadComponent: () => import('./features/espace/accueil-page').then((m) => m.AccueilPage) },
       { path: 'programme', title: 'Votre programme · NavUp', loadComponent: () => import('./features/espace/programme-page').then((m) => m.ProgrammePage) },
       { path: 'sujets/:id', title: 'Sujet · NavUp', loadComponent: () => import('./features/espace/sujet-page').then((m) => m.SujetPage) },
+      {
+        path: 'rendez-vous',
+        title: 'Rendez-vous · NavUp',
+        loadComponent: () => import('./features/espace/rendez-vous-page').then((m) => m.RendezVousEspacePage),
+      },
       { path: 'profil', title: 'Profil · NavUp', loadComponent: () => import('./features/espace/profil-page').then((m) => m.ProfilPage) },
     ],
   },

@@ -33,6 +33,7 @@ import { EtatAcces } from './etat-acces';
             <a routerLink="/espace/programme" routerLinkActive="ici" ariaCurrentWhenActive="page" [class.ici]="surSujet()">
               <app-icon nom="liste" /> Programme
             </a>
+            <a routerLink="/espace/rendez-vous" routerLinkActive="ici" ariaCurrentWhenActive="page"> <app-icon nom="agenda" /> Rendez-vous </a>
             <a routerLink="/espace/profil" routerLinkActive="ici" ariaCurrentWhenActive="page"> <app-icon nom="personne" /> Profil </a>
           </nav>
         </aside>

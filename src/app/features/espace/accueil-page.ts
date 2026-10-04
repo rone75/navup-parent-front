@@ -3,8 +3,9 @@ import { RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { accesRefuse, apiErrorMessage } from '../../core/api-error';
 import { EspaceApiService } from '../../core/espace-api.service';
-import { jourEcrit, numero } from '../../core/format';
-import { Programme } from '../../core/models';
+import { canalRdv, capitale, jourEcrit, momentEcrit, numero } from '../../core/format';
+import { Programme, Rdv } from '../../core/models';
+import { RdvEspace } from '../../core/rdv-espace';
 import { SessionService } from '../../core/session.service';
 import { Icon } from '../../shared/icon';
 import { SujetsListe } from './sujets-liste';
@@ -13,10 +14,12 @@ import { SujetsListe } from './sujets-liste';
  * Accueil de l'espace : où le parent en est, et un seul geste pour reprendre (« Continuer »).
  * Tout ce qui s'affiche vient de l'API : la semaine en cours, les totaux, le sujet à reprendre, la prochaine date.
  * Rien ne compte les jours manqués.
+ * Le prochain rendez-vous, s'il y en a un, est rappelé à côté : lu à part, il n'attend ni ne bloque le programme.
  */
 @Component({
   selector: 'app-accueil-page',
   imports: [RouterLink, Icon, SujetsListe],
+  providers: [RdvEspace],
   template: `
     <header>
       <h1>Bonjour{{ prenom() ? ' ' + prenom() : '' }}</h1>
@@ -57,6 +60,16 @@ import { SujetsListe } from './sujets-liste';
         }
 
         <div class="cote">
+          @if (rdv(); as r) {
+            <section class="feuille" aria-labelledby="titre-rdv" data-rdv="rappel">
+              <h2 id="titre-rdv" class="h3">Prochain rendez-vous</h2>
+              <p>
+                <strong>{{ moment(r) }}</strong>, {{ canal(r.canal) }}. <span class="secondaire">Heure de Paris.</span>
+              </p>
+              <p class="actions"><a class="lien" routerLink="/espace/rendez-vous">Voir mes rendez-vous <app-icon nom="chevron" /></a></p>
+            </section>
+          }
+
           <section class="feuille note" aria-labelledby="titre-progression">
             <h2 id="titre-progression" class="sr-only">Votre progression</h2>
             <p>
@@ -92,9 +105,12 @@ import { SujetsListe } from './sujets-liste';
 export class AccueilPage implements OnInit {
   private readonly api = inject(EspaceApiService);
   private readonly session = inject(SessionService);
+  private readonly rdvEspace = inject(RdvEspace);
 
   readonly programme = signal<Programme | null>(null);
   readonly erreur = signal('');
+  /** Le prochain rendez-vous qui tient (le premier de ceux que l'API dit à venir), ou null. */
+  readonly rdv = signal<Rdv | null>(null);
 
   readonly prenom = computed(() => this.session.moi()?.prenom ?? null);
   /** Le programme est fini : l'accès reste ouvert quelque temps (état calculé par l'API). */
@@ -108,9 +124,24 @@ export class AccueilPage implements OnInit {
 
   readonly num = numero;
   readonly jour = jourEcrit;
+  readonly canal = canalRdv;
 
   ngOnInit(): void {
     void this.charger();
+    void this.lireRdv();
+  }
+
+  moment(r: Rdv): string {
+    return capitale(momentEcrit(r.date_debut));
+  }
+
+  /** Un rappel, rien de plus : sans réponse des rendez-vous, l'accueil n'en dit rien et le programme s'affiche. */
+  private async lireRdv(): Promise<void> {
+    try {
+      this.rdv.set((await this.rdvEspace.vue()).avenir[0] ?? null);
+    } catch {
+      this.rdv.set(null);
+    }
   }
 
   async charger(): Promise<void> {

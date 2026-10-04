@@ -21,7 +21,8 @@ export type IconName =
   | 'externe'
   | 'alerte'
   | 'croix'
-  | 'agrandir';
+  | 'agrandir'
+  | 'agenda';
 
 /**
  * Icônes de l'appli : dessinées ici, d'un seul trait de 2 (le trait des feuilles), bouts ronds.
@@ -108,6 +109,10 @@ export type IconName =
         }
         @case ('agrandir') {
           <path d="m6 15 6-6 6 6" />
+        }
+        @case ('agenda') {
+          <rect x="4" y="5.5" width="16" height="14.5" rx="2" />
+          <path d="M8 3.5v4M16 3.5v4M4 10.5h16" />
         }
       }
     </svg>

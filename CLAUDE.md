@@ -5,7 +5,7 @@ API : `/var/www/navup-parent-api` (espace personnel) et les endpoints publics de
 
 ## Feuille de route
 
-Première livraison (faite) : page publique avec achat, accès par lien, connexion, accueil, programme, sujet (fiche et lecteur), progression, profil. Ensuite, avec la Tour de contrôle : étape 6b (rendez-vous découverte et d'accompagnement, la section « rendez-vous » de la page publique y gagnera ses créneaux), puis annonces, ressources, communauté, notifications, hors-ligne ; suppression du compte en libre-service à l'étape 8.
+Première livraison (faite) : page publique avec achat, accès par lien, connexion, accueil, programme, sujet (fiche et lecteur), progression, profil. Étape 6b (faite, avec la Tour de contrôle) : rendez-vous découverte pris sur la page publique, page `/rendez-vous` de gestion par le lien de l'e-mail, rendez-vous d'accompagnement dans l'espace (`espace/rendez-vous`, rappel sur l'accueil). Ensuite : annonces, ressources, communauté, notifications, hors-ligne ; suppression du compte en libre-service à l'étape 8.
 
 ## À lire avant de toucher à l'interface
 
@@ -25,6 +25,7 @@ Première livraison (faite) : page publique avec achat, accès par lien, connexi
 - Le son : un seul élément `<audio>` (`LecteurService`), jamais de `play()` hors d'un geste, « terminé » jamais déduit de l'écoute.
 - Jamais de `alert`, `confirm` ou `prompt`. Aucun compteur de jours manqués, point, classement ni relance culpabilisante.
 - Textes de la page publique : ceux de NavUp, mot pour mot. Ne rien inventer : ni témoignage, ni garantie, ni présentation du fondateur, ni texte légal.
+- **Rendez-vous** : créneaux, règles (délai, déplacements, un seul à venir) et états viennent de navup-api ; le front les affiche, il ne les déduit pas. Dates et heures de Paris en chaînes, jamais converties par le fuseau de l'appareil, et « heure de Paris » toujours écrit. La réponse d'une réservation publique ne dit rien d'un dossier : l'écran de confirmation n'affirme rien de plus que l'e-mail parti. Le jeton du lien de gestion (fragment, retiré de l'adresse) et le billet de l'espace (`RdvEspace`, redemandé une fois sur 401) ne se gardent nulle part. Un rendez-vous passé se dit « passé », jamais « absent ». Sans créneau ou sur erreur, la page publique garde le lien vers l'adresse de contact.
 - Une sortie de composant (`output()`) ne porte jamais le nom d'un événement du navigateur.
 - Tout en français : libellés, messages, commentaires.
 

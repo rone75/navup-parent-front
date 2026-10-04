@@ -22,4 +22,12 @@ export class EspaceApiService {
   progression(corps: { id_sujet: number; version: number; position?: number; termine?: boolean }): Observable<ReponseProgression> {
     return this.http.put<ReponseProgression>(`${API_ESPACE}progression/`, corps);
   }
+
+  /**
+   * Billet de rendez-vous : ce que le parent connecté présente aux endpoints publics de la Tour de contrôle pour ses
+   * rendez-vous. Il vit dix minutes et ne se garde nulle part : voir `RdvEspace` (core/rdv-espace.ts).
+   */
+  billet(): Observable<string> {
+    return this.http.post<{ billet: string }>(`${API_ESPACE}rendez-vous/billet/`, {}).pipe(map((r) => r.billet));
+  }
 }

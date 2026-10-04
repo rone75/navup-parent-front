@@ -46,7 +46,8 @@ Un programme parental qui **ne promet pas de solution miracle** et le dit (« Le
 ## Capabilities and Constraints
 
 - Première livraison : page publique avec achat, création du mot de passe, connexion, accueil, programme, sujet (fiche et lecteur audio), progression, profil.
-- Reportés : rendez-vous découverte et d'accompagnement, annonces, ressources, communauté, notifications push, hors-ligne, application native. La section « rendez-vous » de la page publique renvoie à contact@navup.fr en attendant.
+- Étape 6b (4 octobre 2026) : le visiteur choisit lui-même un créneau de rendez-vous découverte sur la page publique (confirmation par e-mail, invitation de calendrier, lien pour déplacer ou annuler jusqu'à 12 h avant) ; le parent inscrit prend son rendez-vous d'accompagnement depuis son espace, un seul à venir à la fois. Durées (30 et 45 min) et canaux (visio, téléphone) restent à confirmer par Nabil.
+- Reportés : annonces, ressources, communauté, notifications push, hors-ligne, application native.
 - La fiche est le PDF officiel du client, montré tel quel : ses pages sont rendues en images, et le PDF s'ouvre à côté. Son texte ne se réécrit pas.
 - Les montants viennent de l'API : la page n'écrit aucun prix en dur.
 - Tout est en français.

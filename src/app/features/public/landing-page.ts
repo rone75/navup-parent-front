@@ -13,6 +13,7 @@ import { Icon } from '../../shared/icon';
 import { PorteHaut } from '../../shared/porte-haut';
 import { Extrait } from './extrait';
 import { PILIERS, SEMAINES } from './programme-contenu';
+import { RdvDecouverte } from './rdv-decouverte';
 
 const TITRE = 'NavUp, l’accompagnement parental moderne';
 const DESCRIPTION =
@@ -25,10 +26,12 @@ const DESCRIPTION =
  * - Le prix et les modalités ne sont jamais écrits ici : ils sont lus dans l'API (v1/public/offre/) une fois la page
  *   affichée, et la commande renvoie le prix lu, refusé s'il a changé.
  * - Les questions fréquentes sont provisoires, à faire valider par NavUp.
+ * - Le rendez-vous découverte se prend dans la feuille « Prenons le temps d'échanger… » (rdv-decouverte.ts) : ses
+ *   créneaux, comme le prix, sont lus dans le navigateur ; sans eux, la feuille renvoie à l'adresse de contact.
  */
 @Component({
   selector: 'app-landing-page',
-  imports: [FormsModule, RouterLink, PorteHaut, Icon, Extrait],
+  imports: [FormsModule, RouterLink, PorteHaut, Icon, Extrait, RdvDecouverte],
   template: `
     <div class="frigo">
       <app-porte-haut>
@@ -311,7 +314,7 @@ const DESCRIPTION =
           }
         </section>
 
-        <section class="rubrique deux" aria-labelledby="titre-echange">
+        <section class="rubrique deux" id="rendez-vous" aria-labelledby="titre-echange">
           <div class="feuille note aimantee">
             <span class="aimant bleu gauche" aria-hidden="true"></span>
             <h2 id="titre-echange">Prenons le temps d'échanger…</h2>
@@ -321,10 +324,8 @@ const DESCRIPTION =
               correspond à vos besoins.
             </p>
             <p>Cet échange est gratuit, sans engagement et sans obligation d'achat.</p>
-            <p class="actions">
-              <a class="btn" [href]="'mailto:' + contact + '?subject=Rendez-vous%20découverte'"><app-icon nom="enveloppe" /> Prenez rendez-vous !</a>
-            </p>
-            <p class="petit">Écrivez-nous vos disponibilités : nous vous répondons avec un créneau.</p>
+            <!-- Les créneaux du rendez-vous découverte, lus dans le navigateur ; sans eux, le lien vers l'adresse de contact -->
+            <app-rdv-decouverte />
           </div>
           <figure class="piece photo penche-droite">
             <span class="aimant" aria-hidden="true"></span>
