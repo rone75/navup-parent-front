@@ -655,15 +655,11 @@ legend {
 li:first-child > .etiquette {
   border-top: 0;
 }
+/* Au survol, la ligne prend le ton du pli de la feuille ; aucun soulignement (il gagnait aussi la durée) */
 @media (hover: hover) {
   a.etiquette:hover {
     background: var(--feuille-2);
     color: var(--encre);
-  }
-  a.etiquette:hover .etiquette-titre {
-    text-decoration: underline;
-    text-decoration-thickness: var(--trait);
-    text-underline-offset: 0.2em;
   }
 }
 .etiquette-numero {

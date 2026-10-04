@@ -290,7 +290,7 @@ L'aimant est un disque de 2,25 rem, centré sur le bord haut de sa feuille, ou c
 - **Numéro :** deux chiffres, police des titres, 1,75 rem, bleu.
 - **Titre :** 620 ; la durée dessous en label `encre-2`.
 - **État :** un chevron (à commencer), « En cours », ou une étoile orange et « Terminé ». Un sujet pas encore ouvert n'est pas un lien : texte et numéro en `encre-2`, un cadenas.
-- **Survol :** fond `feuille-2`, titre souligné au trait.
+- **Survol :** fond `feuille-2` sur toute la ligne, et rien d'autre : aucun soulignement, ni du titre ni de la durée (demande d'Erwan, 4 octobre 2026).
 
 ### Boutons : des aimants à mots
 - **Forme :** pilule au trait d'encre, 48 px de haut au moins, Archivo 680. Un bouton est un aimant sur lequel on a écrit.
