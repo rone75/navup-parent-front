@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+Disallow: /espace
+Disallow: /connexion
+Disallow: /mot-de-passe
+Disallow: /mot-de-passe-oublie
+Disallow: /paiement
+Disallow: /medias/
+
+Sitemap: https://navup.fr/sitemap.xml

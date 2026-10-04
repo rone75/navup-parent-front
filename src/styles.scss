@@ -1,0 +1,1733 @@
+/* ==========================================================================
+   Appli des parents NavUp — « La porte du frigo »
+   Tout le système visuel est ici : jetons, puis classes globales. Aucun style de composant.
+   Le monde : la porte en émail bleu clair du frigo familial, où tient ce qui compte cette semaine.
+   - la porte : le fond, en aplat ; deux portes (celle du haut, la grande) séparées par un joint ;
+   - la feuille : ce qui se lit, tenue par un aimant ;
+   - l'aimant : un disque en aplat, qui dit aussi un état ;
+   - l'étiquette : un sujet, avec son numéro ;
+   - le poste : le lecteur audio.
+   Un seul trait (2 px, à l'encre), des aplats, aucune ombre : tout est dessiné, rien n'imite la matière.
+   ========================================================================== */
+
+@font-face {
+  font-family: 'Archivo';
+  src: url('./fonts/archivo-latin-wdth-normal.woff2') format('woff2');
+  font-weight: 100 900;
+  font-stretch: 62% 125%;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Titres : Londrina Solid tient la place de Tropika, la police de la marque, tant que NavUp n'a pas fourni son
+   fichier et sa licence. Le jour venu : déclarer ici « Tropika », elle est déjà en tête de --titres. */
+@font-face {
+  font-family: 'Londrina Solid';
+  src: url('./fonts/londrina-solid-latin-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Londrina Solid';
+  src: url('./fonts/londrina-solid-latin-900.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* Palette du client (cahier de l'écosystème §2.2) */
+  --porte: #c2dcff;
+  --jaune: #ffdf7c;
+  --bleu: #2e4ed2;
+  --orange: #ffbd59;
+  --blanc: #ffffff;
+  --feuille: #f7f8ef;
+  --encre: #172033;
+
+  /* Dérivés */
+  --porte-2: #a9ccfa; /* un ton sous la porte : joint, filets entre deux lignes, zone qui attend */
+  --feuille-2: #e9eede; /* un ton sous la feuille : survol d'une ligne, fond d'une piste */
+  --encre-2: #3d4a68; /* texte secondaire, teinté de l'encre : 6:1 sur la porte, 8:1 sur la feuille */
+  --bleu-2: #2340b5; /* survol d'une action */
+  --alerte: #a8261c;
+  --alerte-fond: #fde6e1;
+
+  --titres: 'Tropika', 'Londrina Solid', 'Archivo', system-ui, sans-serif;
+  --texte: 'Archivo', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --t-petit: 0.9375rem;
+  --t-corps: 1.0625rem;
+  --t-3: 1.5rem;
+  --t-2: clamp(2rem, 1.3rem + 2.4vw, 3rem);
+  --t-1: clamp(2.75rem, 1.5rem + 4.8vw, 5.25rem);
+
+  --trait: 2px;
+  --r-petit: 12px;
+  --r-feuille: 18px;
+  --r-porte: 28px;
+  --aimant: 2.25rem;
+  --cible: 2.75rem; /* 44 px : toute commande au doigt */
+  --joint: 0.6rem; /* entre les deux portes, et autour du frigo */
+  --haut: 4.5rem; /* hauteur de la porte du haut */
+  --barre: 4.25rem; /* barre de navigation basse, sur téléphone */
+
+  --sortie: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  /* Une ancre s'arrête sous la porte du haut, qui reste à l'écran */
+  scroll-padding-top: calc(var(--haut) + var(--joint) * 2 + 1.25rem);
+  scrollbar-color: var(--bleu) var(--porte-2);
+}
+
+body {
+  margin: 0;
+  background: var(--porte);
+  color: var(--encre);
+  font-family: var(--texte);
+  font-size: var(--t-corps);
+  font-weight: 420;
+  line-height: 1.55;
+  font-variant-numeric: tabular-nums;
+  accent-color: var(--bleu);
+  caret-color: var(--bleu);
+}
+
+::selection {
+  background: var(--orange);
+  color: var(--encre);
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-family: var(--titres);
+  font-weight: 900;
+  line-height: 1.02;
+  letter-spacing: 0.005em;
+  text-wrap: balance;
+}
+h1 {
+  font-size: var(--t-1);
+}
+h2 {
+  font-size: var(--t-2);
+}
+h3 {
+  font-size: var(--t-3);
+  line-height: 1.15;
+}
+
+p {
+  margin: 0 0 1rem;
+  max-width: 68ch;
+  text-wrap: pretty;
+}
+p:last-child {
+  margin-bottom: 0;
+}
+
+a {
+  color: var(--bleu);
+  text-decoration-thickness: var(--trait);
+  text-underline-offset: 0.22em;
+}
+@media (hover: hover) {
+  a:hover {
+    color: var(--bleu-2);
+  }
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+:focus-visible {
+  outline: 3px solid var(--bleu);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+.btn:focus-visible,
+.sur-bleu :focus-visible {
+  outline-color: var(--orange);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.secondaire {
+  color: var(--encre-2);
+}
+.petit {
+  font-size: var(--t-petit);
+}
+.chiffre {
+  font-family: var(--titres);
+  font-weight: 900;
+  line-height: 1;
+}
+
+.ico {
+  display: inline-flex;
+  width: 1.35em;
+  height: 1.35em;
+  flex: none;
+  vertical-align: -0.3em;
+}
+.ico svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ---------- Les portes ---------- */
+.frigo {
+  display: grid;
+  gap: var(--joint); /* le joint entre les deux portes */
+  max-width: 82rem;
+  margin: 0 auto;
+  padding: var(--joint);
+  min-height: 100dvh;
+  align-content: start;
+}
+
+.porte {
+  position: relative;
+  border: var(--trait) solid var(--encre);
+  border-radius: var(--r-porte);
+  background: var(--porte);
+}
+
+/* Porte du haut : le logo, et un lien. Elle reste en haut de l'écran pendant le défilement : sa bande, de la
+   couleur de la porte, va jusqu'aux bords du frigo, et la page passe dessous sans se voir autour d'elle. */
+.haut {
+  position: sticky;
+  top: 0;
+  z-index: 25;
+  display: block;
+  margin: calc(var(--joint) * -1) calc(var(--joint) * -1) calc(var(--joint) * -1);
+  padding: var(--joint);
+  background: var(--porte);
+}
+/* Sous la bande, aux deux coins : les montants droits de la grande porte dépasseraient de quelques pixels au-dessus
+   de son arrondi resté collé (voir .porte-grande::before). Deux pastilles de la couleur de la porte les couvrent. */
+.haut::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: var(--joint);
+  right: var(--joint);
+  height: 5px;
+  background:
+    linear-gradient(var(--porte), var(--porte)) left / 4px 100% no-repeat,
+    linear-gradient(var(--porte), var(--porte)) right / 4px 100% no-repeat;
+  pointer-events: none;
+}
+.porte-haut {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.6rem 1.25rem 0.6rem 1rem;
+  min-height: var(--haut);
+}
+.porte-haut .logo img {
+  height: 3rem;
+  width: auto;
+}
+.porte-haut nav {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem 1.5rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+.porte-haut nav a:not(.btn) {
+  color: var(--encre);
+  font-weight: 600;
+  text-decoration: none;
+  padding: 0.6rem 0;
+}
+@media (hover: hover) {
+  .porte-haut nav a:not(.btn):hover {
+    text-decoration: underline;
+    text-decoration-thickness: var(--trait);
+  }
+}
+
+/* Grande porte : le contenu. La poignée est dessinée sur son bord. */
+.porte-grande {
+  --marge-porte: clamp(1.25rem, 0.5rem + 3vw, 3.5rem);
+  padding: var(--marge-porte);
+  padding-bottom: clamp(2rem, 1rem + 4vw, 4.5rem);
+}
+/* Le haut de la grande porte reste dessiné sous la porte du haut pendant le défilement : la page glisse derrière
+   son bord arrondi, au lieu d'être tranchée net. C'est une copie du bord (trait et arrondis), collée sous la bande ;
+   son ombre pleine, de la couleur de la porte, couvre les deux coins au-dehors de l'arrondi. */
+.porte-grande::before {
+  content: '';
+  position: sticky;
+  top: calc(var(--haut) + var(--joint) * 2);
+  z-index: 20;
+  display: block;
+  height: var(--r-porte);
+  margin: calc((var(--marge-porte) + var(--trait)) * -1) calc((var(--marge-porte) + var(--trait)) * -1) calc(var(--marge-porte) + var(--trait) - var(--r-porte));
+  border: var(--trait) solid var(--encre);
+  border-bottom: 0;
+  border-radius: var(--r-porte) var(--r-porte) 0 0;
+  box-shadow: 0 0 0 var(--joint) var(--porte);
+  /* L'ombre ne déborde qu'en haut et sur les côtés ; un pixel est repris en bas, sinon un liseré clair court sur la page */
+  clip-path: inset(calc(var(--joint) * -1) calc(var(--joint) * -1) 1px);
+  pointer-events: none;
+}
+/* La poignée tient à la porte : elle reste à sa place sous la porte du haut pendant le défilement, au lieu de
+   glisser sous elle et d'y être rognée. L'élément lui-même n'a pas de hauteur (il ne déplace rien) ; la poignée
+   est dessinée par son pseudo-élément, calée à 2,5 rem du haut de la porte. */
+.poignee {
+  position: sticky;
+  top: calc(var(--haut) + var(--joint) * 2 + var(--marge-porte) + var(--trait));
+  z-index: 21;
+  display: flow-root;
+  height: 0;
+  pointer-events: none;
+}
+.poignee::after {
+  content: '';
+  position: absolute;
+  top: calc(2.5rem - var(--marge-porte) - var(--trait));
+  right: calc((var(--marge-porte) + var(--trait) + 0.55rem) * -1);
+  width: 1.1rem;
+  height: 9rem;
+  border: var(--trait) solid var(--encre);
+  border-radius: 999px;
+  background: var(--feuille);
+}
+
+/* ---------- La feuille et son aimant ---------- */
+.feuille {
+  position: relative;
+  border: var(--trait) solid var(--encre);
+  border-radius: var(--r-feuille);
+  background: var(--feuille);
+  padding: clamp(1.25rem, 0.9rem + 1.4vw, 2.25rem);
+}
+.feuille.aimantee {
+  margin-top: calc(var(--aimant) / 2);
+  padding-top: calc(clamp(1.25rem, 0.9rem + 1.4vw, 2.25rem) + var(--aimant) / 3);
+}
+.feuille.note {
+  background: var(--jaune);
+}
+.feuille.bleue {
+  background: var(--bleu);
+  color: var(--blanc);
+}
+.feuille.bleue a {
+  color: var(--blanc);
+}
+/* Une feuille qui attend son jour : un ton plus pâle, jamais grisée */
+.feuille.attend {
+  background: color-mix(in srgb, var(--feuille) 45%, var(--porte));
+  border-style: dashed;
+}
+.feuille > h2,
+.feuille > h3 {
+  margin-bottom: 0.75rem;
+}
+
+.aimant {
+  position: absolute;
+  top: calc(var(--aimant) / -2);
+  left: 50%;
+  translate: -50% 0;
+  width: var(--aimant);
+  height: var(--aimant);
+  display: grid;
+  place-items: center;
+  border: var(--trait) solid var(--encre);
+  border-radius: 50%;
+  background: var(--orange);
+  color: var(--encre);
+  z-index: 1;
+}
+.aimant.bleu {
+  background: var(--bleu);
+  color: var(--blanc);
+}
+.aimant.jaune {
+  background: var(--jaune);
+}
+.aimant.blanc {
+  background: var(--feuille);
+}
+.aimant.gauche {
+  left: 2.25rem;
+  translate: 0 0;
+}
+.aimant .ico {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+/* Une pièce posée sur la porte, légèrement de travers : une photo, une vraie fiche. Le texte, lui, reste droit. */
+.piece {
+  position: relative;
+  rotate: var(--penche, 0deg);
+  border: var(--trait) solid var(--encre);
+  border-radius: 6px;
+  background: var(--blanc);
+}
+.piece img {
+  border-radius: 4px;
+}
+.piece.photo {
+  padding: 0.5rem 0.5rem 0;
+}
+.piece.photo figcaption {
+  padding: 0.45rem 0.25rem 0.55rem;
+  font-size: var(--t-petit);
+  color: var(--encre-2);
+  text-align: center;
+}
+figure {
+  margin: 0;
+}
+
+/* ---------- Boutons : des aimants à mots ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  min-height: 3rem;
+  padding: 0.55rem 1.4rem;
+  border: var(--trait) solid var(--encre);
+  border-radius: 999px;
+  background: var(--bleu);
+  color: var(--blanc);
+  font: inherit;
+  font-weight: 680;
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color 0.15s,
+    translate 0.15s var(--sortie);
+}
+@media (hover: hover) {
+  .btn:hover {
+    background: var(--bleu-2);
+    color: var(--blanc);
+  }
+}
+.btn:active {
+  translate: 0 1px;
+}
+.btn[disabled] {
+  background: var(--feuille-2);
+  color: var(--encre-2);
+  cursor: default;
+}
+.btn-grand {
+  min-height: 3.6rem;
+  padding: 0.7rem 1.9rem;
+  font-size: 1.1875rem;
+}
+.btn-feuille {
+  background: var(--feuille);
+  color: var(--encre);
+}
+@media (hover: hover) {
+  .btn-feuille:hover {
+    background: var(--feuille-2);
+    color: var(--encre);
+  }
+}
+.btn-orange {
+  background: var(--orange);
+  color: var(--encre);
+}
+@media (hover: hover) {
+  .btn-orange:hover {
+    background: var(--jaune);
+    color: var(--encre);
+  }
+}
+.btn-rond {
+  width: var(--cible);
+  min-height: var(--cible);
+  padding: 0;
+}
+.btn-rond.grand {
+  width: 4rem;
+  min-height: 4rem;
+}
+.btn-rond.grand .ico {
+  width: 1.7rem;
+  height: 1.7rem;
+}
+.btn-bloc {
+  width: 100%;
+}
+/* Geste discret : un lien qui a la taille d'une cible */
+.lien {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: var(--cible);
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--bleu);
+  font: inherit;
+  font-weight: 650;
+  text-decoration: underline;
+  text-decoration-thickness: var(--trait);
+  text-underline-offset: 0.22em;
+  cursor: pointer;
+}
+@media (hover: hover) {
+  .lien:hover {
+    color: var(--bleu-2);
+  }
+}
+.feuille.bleue .lien {
+  color: var(--blanc);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.25rem;
+  margin-top: 1.5rem;
+}
+
+/* ---------- Saisie ---------- */
+.champ {
+  display: grid;
+  gap: 0.35rem;
+  margin-bottom: 1.1rem;
+}
+.champ > span,
+.champ > label {
+  font-weight: 650;
+}
+.champ input {
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.6rem 0.85rem;
+  border: var(--trait) solid var(--encre);
+  border-radius: var(--r-petit);
+  background: var(--blanc);
+  color: var(--encre);
+  font: inherit;
+}
+.champ input::placeholder {
+  color: var(--encre-2);
+}
+.champ small {
+  font-size: var(--t-petit);
+  color: var(--encre-2);
+}
+.champs-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: 0 1rem;
+}
+.case {
+  display: grid;
+  grid-template-columns: 1.5rem 1fr;
+  gap: 0.7rem;
+  align-items: start;
+  padding: 0.5rem 0;
+  min-height: var(--cible);
+  cursor: pointer;
+}
+.case input {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin: 0.1rem 0 0;
+}
+fieldset {
+  margin: 0 0 1.25rem;
+  padding: 1rem 0 0;
+  border: 0;
+  border-top: var(--trait) solid var(--porte-2);
+}
+legend {
+  padding: 0 0.6rem 0 0;
+  font-weight: 700;
+}
+.leurre {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+.refus {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  margin: 0 0 1rem;
+  padding: 0.75rem 1rem;
+  border: var(--trait) solid var(--alerte);
+  border-radius: var(--r-petit);
+  background: var(--alerte-fond);
+  color: var(--alerte);
+  font-weight: 600;
+}
+.refus .ico {
+  margin-top: 0.1rem;
+}
+
+/* ---------- Listes réglées ---------- */
+.lignes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.lignes > li {
+  padding: 0.7rem 0;
+  border-top: var(--trait) solid var(--porte-2);
+}
+.lignes > li:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+.feuille .lignes > li {
+  border-top-color: var(--feuille-2);
+}
+.coches > li {
+  display: grid;
+  grid-template-columns: 1.6rem 1fr;
+  gap: 0.75rem;
+  align-items: start;
+  font-size: 1.1875rem;
+  font-weight: 560;
+}
+.coches .ico {
+  width: 1.6rem;
+  height: 1.6rem;
+  color: var(--bleu);
+}
+
+/* ---------- L'étiquette d'un sujet ---------- */
+.etiquettes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.etiquette {
+  display: grid;
+  grid-template-columns: 2.4rem minmax(0, 1fr) auto;
+  gap: 0.25rem 0.85rem;
+  align-items: center;
+  min-height: 3.5rem;
+  padding: 0.6rem 0.25rem;
+  border-top: var(--trait) solid var(--feuille-2);
+  color: var(--encre);
+  text-decoration: none;
+}
+li:first-child > .etiquette {
+  border-top: 0;
+}
+@media (hover: hover) {
+  a.etiquette:hover {
+    background: var(--feuille-2);
+    color: var(--encre);
+  }
+  a.etiquette:hover .etiquette-titre {
+    text-decoration: underline;
+    text-decoration-thickness: var(--trait);
+    text-underline-offset: 0.2em;
+  }
+}
+.etiquette-numero {
+  font-family: var(--titres);
+  font-weight: 900;
+  font-size: 1.75rem;
+  line-height: 1;
+  color: var(--bleu);
+}
+.etiquette-titre {
+  font-weight: 620;
+  line-height: 1.3;
+}
+.etiquette-meta {
+  display: block;
+  font-size: var(--t-petit);
+  font-weight: 420;
+  color: var(--encre-2);
+}
+.etiquette-etat {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: var(--t-petit);
+  font-weight: 650;
+  white-space: nowrap;
+}
+.etiquette-etat .ico {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+.etiquette.terminee .etiquette-etat .ico {
+  color: var(--orange);
+}
+.etiquette.verrou {
+  color: var(--encre-2);
+}
+.etiquette.verrou .etiquette-numero {
+  color: var(--encre-2);
+}
+
+/* ---------- Le poste : le lecteur audio ---------- */
+.poste {
+  border: var(--trait) solid var(--encre);
+  border-radius: var(--r-feuille);
+  background: var(--jaune);
+  padding: 1rem;
+}
+.poste-tete {
+  display: grid;
+  grid-template-columns: 4.5rem minmax(0, 1fr);
+  gap: 0.9rem;
+  align-items: center;
+}
+.pochette {
+  width: 100%;
+  aspect-ratio: 1;
+  border: var(--trait) solid var(--encre);
+  border-radius: var(--r-petit);
+  object-fit: cover;
+}
+.poste-titre {
+  font-weight: 700;
+  line-height: 1.25;
+}
+.poste-cadran {
+  margin: 0.9rem 0 0.4rem;
+  border: var(--trait) solid var(--encre);
+  border-radius: var(--r-petit);
+  background: var(--feuille);
+  overflow: hidden;
+}
+.poste-cadran svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.poste-commandes {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+.piste {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 0.6rem;
+  align-items: center;
+  margin-top: 0.9rem;
+  font-size: var(--t-petit);
+  font-weight: 600;
+}
+.piste input[type='range'] {
+  width: 100%;
+  height: var(--cible);
+  margin: 0;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+.piste input[type='range']::-webkit-slider-runnable-track {
+  height: 0.6rem;
+  border: var(--trait) solid var(--encre);
+  border-radius: 999px;
+  background: linear-gradient(to right, var(--bleu) var(--part, 0%), var(--feuille) var(--part, 0%));
+}
+.piste input[type='range']::-moz-range-track {
+  height: 0.35rem;
+  border: var(--trait) solid var(--encre);
+  border-radius: 999px;
+  background: var(--feuille);
+}
+.piste input[type='range']::-moz-range-progress {
+  height: 0.35rem;
+  border-radius: 999px;
+  background: var(--bleu);
+}
+.piste input[type='range']::-webkit-slider-thumb {
+  appearance: none;
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-top: -0.6rem;
+  border: var(--trait) solid var(--encre);
+  border-radius: 50%;
+  background: var(--orange);
+}
+.piste input[type='range']::-moz-range-thumb {
+  width: 1.25rem;
+  height: 1.25rem;
+  border: var(--trait) solid var(--encre);
+  border-radius: 50%;
+  background: var(--orange);
+}
+.vitesses {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.35rem;
+  margin-top: 0.9rem;
+}
+.vitesses button {
+  min-width: 3.4rem;
+  min-height: var(--cible);
+  padding: 0 0.6rem;
+  border: var(--trait) solid var(--encre);
+  border-radius: 999px;
+  background: var(--feuille);
+  color: var(--encre);
+  font: inherit;
+  font-size: var(--t-petit);
+  font-weight: 650;
+  cursor: pointer;
+}
+.vitesses button[aria-pressed='true'] {
+  background: var(--encre);
+  color: var(--feuille);
+}
+
+/* Le poste en barre : collé au bas de l'écran, au-dessus de la navigation */
+.poste-barre {
+  position: fixed;
+  left: 0.6rem;
+  right: 0.6rem;
+  bottom: calc(var(--barre) + 0.6rem + env(safe-area-inset-bottom, 0px));
+  z-index: 20;
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr) auto;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.5rem 0.6rem;
+  border: var(--trait) solid var(--encre);
+  border-radius: var(--r-feuille);
+  background: var(--jaune);
+}
+.poste-barre .pochette {
+  border-radius: 8px;
+}
+.poste-barre-titre {
+  display: grid;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--encre);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.poste-barre-titre strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.poste-barre-avance {
+  position: absolute;
+  left: 1rem;
+  right: 1rem;
+  bottom: -1px;
+  height: 3px;
+  border-radius: 3px;
+  background: linear-gradient(to right, var(--bleu) var(--part, 0%), transparent var(--part, 0%));
+}
+/* Le poste ouvert en grand par-dessus la page (téléphone) */
+.poste-ouvert {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  align-content: center;
+  padding: 1rem 0.9rem calc(1rem + env(safe-area-inset-bottom, 0px));
+  background: var(--porte);
+  overflow-y: auto;
+}
+.poste-ouvert .poste {
+  width: min(100%, 30rem);
+  margin: 0 auto;
+}
+.poste-ouvert .poste-tete {
+  grid-template-columns: 1fr;
+  justify-items: center;
+  text-align: center;
+}
+.poste-ouvert .pochette {
+  width: min(60vw, 15rem);
+}
+
+/* ---------- Notes volantes ---------- */
+.volantes {
+  position: fixed;
+  left: 50%;
+  bottom: calc(var(--barre) + 5.5rem);
+  translate: -50% 0;
+  z-index: 60;
+  display: grid;
+  gap: 0.5rem;
+  width: min(92vw, 30rem);
+}
+.volante {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+  padding: 0.8rem 1rem;
+  border: var(--trait) solid var(--encre);
+  border-radius: var(--r-petit);
+  background: var(--feuille);
+  color: var(--encre);
+  font: inherit;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+.volante.erreur {
+  background: var(--alerte-fond);
+  border-color: var(--alerte);
+  color: var(--alerte);
+}
+
+/* ---------- Page publique ---------- */
+.une {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(1.5rem, 4vw, 4rem);
+  align-items: center;
+}
+.une .feuille-titre p {
+  font-size: 1.1875rem;
+}
+.une .feuille-titre h1 {
+  margin-bottom: 1.25rem;
+  /* « L'accompagnement » est le mot le plus long de la page : la taille est réglée pour qu'il tienne sur une ligne */
+  font-size: clamp(2.1rem, 0.6rem + 3.6vw, 4.25rem);
+}
+.prix-etiquette {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  padding: 0.35rem 0.9rem;
+  border: var(--trait) solid var(--encre);
+  border-radius: 8px;
+  background: var(--jaune);
+  font-weight: 600;
+}
+.prix-etiquette .chiffre {
+  font-size: 1.75rem;
+}
+/* Les pièces de la une : la vraie fiche, le poste posé sur son coin, une photo */
+.pieces {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: 1.25rem;
+  align-items: start;
+  padding-top: 1rem;
+}
+.pieces .fiche {
+  --penche: 2deg;
+  grid-row: 1 / span 2;
+  margin-top: calc(var(--aimant) / 2);
+}
+.pieces .fiche img {
+  aspect-ratio: 1489 / 2105;
+  width: 100%;
+}
+.pieces .photo {
+  --penche: -3deg;
+  margin-top: 2.5rem;
+}
+.pieces .poste {
+  margin-left: -4.5rem;
+  position: relative;
+  z-index: 2;
+}
+
+.rubrique {
+  margin-top: clamp(3.5rem, 2rem + 6vw, 7rem);
+}
+.rubrique > h2 {
+  margin-bottom: clamp(1.75rem, 1rem + 2vw, 2.75rem);
+  max-width: 18ch;
+}
+.rubrique > .chapo {
+  margin-top: -1rem;
+  margin-bottom: 2rem;
+  font-size: 1.1875rem;
+}
+.deux {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: clamp(1.5rem, 4vw, 4rem);
+  align-items: start;
+}
+.deux.inverse {
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+}
+
+/* Le planning d'une semaine : la feuille du semainier, les sujets en lignes, les trois gestes en cases à cocher */
+.semainier table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.semainier th,
+.semainier td {
+  padding: 0.7rem 0.35rem;
+  border-top: var(--trait) solid var(--feuille-2);
+  text-align: left;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.semainier thead th {
+  border-top: 0;
+  font-size: var(--t-petit);
+  font-weight: 700;
+  vertical-align: bottom;
+}
+.semainier thead th + th,
+.semainier td {
+  width: 4.5rem;
+  text-align: center;
+}
+.sujet-semainier {
+  display: grid;
+  grid-template-columns: 1.9rem minmax(0, 1fr);
+  gap: 0.35rem;
+  align-items: baseline;
+}
+.sujet-semainier .chiffre {
+  font-size: 1.5rem;
+  color: var(--bleu);
+}
+.a-cocher {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+  border: var(--trait) solid var(--encre);
+  border-radius: 5px;
+  background: var(--blanc);
+  vertical-align: middle;
+}
+.gestes {
+  margin: 0;
+}
+.gestes dt {
+  font-family: var(--titres);
+  font-weight: 900;
+  font-size: var(--t-3);
+  line-height: 1.15;
+}
+.gestes dd {
+  margin: 0.35rem 0 1.5rem;
+  max-width: 44ch;
+}
+
+/* Les douze semaines */
+.semaines {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(17.5rem, 1fr));
+  gap: 2rem 1.25rem;
+}
+.semaines .feuille {
+  padding: 1.6rem 1.25rem 1.1rem;
+}
+.semaines h3 {
+  margin-bottom: 0.15rem;
+}
+.semaines ol {
+  margin: 0.75rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.semaines ol li {
+  display: grid;
+  grid-template-columns: 2rem 1fr;
+  gap: 0.5rem;
+  padding: 0.4rem 0;
+  border-top: var(--trait) solid var(--feuille-2);
+  line-height: 1.35;
+}
+.semaines ol li span:first-child {
+  font-family: var(--titres);
+  font-weight: 900;
+  font-size: 1.25rem;
+  color: var(--bleu);
+  line-height: 1.2;
+}
+.piliers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  margin: 0 0 2rem;
+  padding: 0;
+  list-style: none;
+  font-weight: 600;
+}
+.piliers li {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.pastille {
+  width: 1.1rem;
+  height: 1.1rem;
+  border: var(--trait) solid var(--encre);
+  border-radius: 50%;
+  background: var(--p, var(--orange));
+  flex: none;
+}
+
+/* Le ticket : ce que comprend l'offre, et son prix */
+.ticket {
+  position: relative;
+  margin-top: calc(var(--aimant) / 2);
+  border: var(--trait) solid var(--encre);
+  border-radius: 6px;
+  background: var(--blanc);
+  padding: 2rem 1.4rem 1.25rem;
+  font-weight: 560;
+}
+.ticket ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.ticket li {
+  padding: 0.5rem 0;
+  border-bottom: var(--trait) dashed var(--porte-2);
+}
+.ticket-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  margin-top: 1rem;
+  font-weight: 700;
+}
+.ticket-total .chiffre {
+  font-size: 3.25rem;
+}
+.ticket-suite {
+  margin-top: 0.6rem;
+  font-size: var(--t-petit);
+  font-weight: 500;
+  color: var(--encre-2);
+}
+
+.questions details {
+  border-top: var(--trait) solid var(--encre);
+}
+.questions details:last-child {
+  border-bottom: var(--trait) solid var(--encre);
+}
+.questions summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 3.75rem;
+  padding: 0.6rem 0;
+  font-weight: 680;
+  font-size: 1.1875rem;
+  cursor: pointer;
+  list-style: none;
+}
+.questions summary::-webkit-details-marker {
+  display: none;
+}
+.questions summary .ico {
+  transition: rotate 0.2s var(--sortie);
+}
+.questions details[open] summary .ico {
+  rotate: 90deg;
+}
+.questions details p {
+  padding-bottom: 1.1rem;
+}
+
+.plinthe {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+  padding: 1rem 1.25rem;
+}
+.plinthe img {
+  height: 3.25rem;
+  width: auto;
+}
+.plinthe ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.plinthe a {
+  color: var(--encre);
+  font-weight: 600;
+}
+
+/* Page d'une seule feuille : accès, retour de paiement, textes légaux */
+.seule {
+  display: grid;
+  justify-items: center;
+  padding-block: clamp(2rem, 1rem + 6vw, 5rem);
+}
+.seule .feuille {
+  width: min(100%, 32rem);
+}
+.seule .feuille.large {
+  width: min(100%, 48rem);
+}
+.seule h1 {
+  font-size: var(--t-2);
+  margin-bottom: 1rem;
+}
+.texte-long h2 {
+  font-size: var(--t-3);
+  margin: 2rem 0 0.6rem;
+}
+
+/* ---------- Espace personnel ---------- */
+.espace {
+  display: grid;
+  grid-template-columns: 7.25rem minmax(0, 1fr);
+  min-height: calc(100dvh - 1.2rem);
+}
+/* La poignée de la porte : la navigation */
+.rail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 0.5rem;
+  border-right: var(--trait) solid var(--encre);
+}
+.rail .logo img {
+  width: 3.25rem;
+  height: 3.25rem;
+  border: var(--trait) solid var(--encre);
+  border-radius: 14px;
+}
+.rail nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin: 1.5rem 0 auto;
+  padding: 0.4rem;
+  border: var(--trait) solid var(--encre);
+  border-radius: 999px;
+  background: var(--feuille);
+}
+.rail nav a {
+  display: grid;
+  justify-items: center;
+  gap: 0.1rem;
+  width: 5.75rem;
+  padding: 0.6rem 0 0.5rem;
+  border-radius: 999px;
+  color: var(--encre);
+  font-size: var(--t-petit);
+  font-weight: 650;
+  text-decoration: none;
+}
+.rail nav a .ico {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+@media (hover: hover) {
+  .rail nav a:hover {
+    background: var(--feuille-2);
+  }
+}
+.rail nav a.ici {
+  background: var(--bleu);
+  color: var(--blanc);
+}
+.espace-page {
+  padding: clamp(1.25rem, 0.5rem + 3vw, 3rem);
+  padding-bottom: 7rem;
+  max-width: 76rem;
+}
+.espace-page header {
+  margin-bottom: clamp(1.5rem, 1rem + 2vw, 2.5rem);
+}
+.espace-page header h1,
+.espace-page h1.h2 {
+  font-size: var(--t-2);
+}
+.espace-page header p {
+  margin-top: 0.75rem;
+  font-size: 1.1875rem;
+}
+.retour {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: var(--cible);
+  color: var(--encre);
+  font-weight: 650;
+  text-decoration: none;
+}
+@media (hover: hover) {
+  .retour:hover {
+    text-decoration: underline;
+    text-decoration-thickness: var(--trait);
+  }
+}
+
+/* Accueil : la feuille de la semaine, et à côté où l'on en est */
+.accueil {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: clamp(1.5rem, 3vw, 3rem);
+  align-items: start;
+}
+/* Les douze semaines en une rangée d'aimants : terminée, en cours, à venir */
+.rangee {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0.9rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+.rangee li {
+  display: grid;
+  place-items: center;
+  width: 2rem;
+  height: 2rem;
+  border: var(--trait) solid var(--encre);
+  border-radius: 50%;
+  background: var(--feuille);
+  font-size: var(--t-petit);
+  font-weight: 700;
+}
+.rangee li.terminee {
+  background: var(--orange);
+}
+.rangee li.disponible {
+  background: var(--feuille);
+}
+.rangee li.verrouillee {
+  border-style: dashed;
+  color: var(--encre-2);
+  background: transparent;
+}
+.rangee li.courante {
+  outline: var(--trait) solid var(--encre);
+  outline-offset: 2px;
+}
+
+.programme {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(21rem, 1fr));
+  gap: 2rem 1.5rem;
+  align-items: start;
+}
+.semaine-tete {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+.semaine-etat {
+  font-size: var(--t-petit);
+  font-weight: 650;
+  color: var(--encre-2);
+}
+
+/* Sujet : la fiche et, à côté, le poste (sous 900 px : la fiche, et le poste en barre) */
+.sujet {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(19rem, 24rem);
+  gap: clamp(1.5rem, 3vw, 3rem);
+  align-items: start;
+}
+.sujet-cote {
+  position: sticky;
+  top: 1.5rem;
+  display: grid;
+  gap: 1.25rem;
+}
+.fiche-pages {
+  display: grid;
+  gap: 1rem;
+}
+.fiche-pages img {
+  width: 100%;
+  border: var(--trait) solid var(--encre);
+  border-radius: 6px;
+  background: var(--porte);
+}
+.voisins {
+  display: grid;
+  gap: 0.25rem;
+}
+.voisins > a,
+.voisins > span {
+  display: grid;
+  gap: 0.1rem;
+  padding: 0.6rem 0;
+  border-top: var(--trait) solid var(--encre);
+  color: var(--encre);
+  text-decoration: none;
+  line-height: 1.3;
+}
+@media (hover: hover) {
+  .voisins a:hover strong {
+    text-decoration: underline;
+    text-decoration-thickness: var(--trait);
+  }
+}
+
+.profil {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 21rem), 1fr));
+  gap: 2rem 1.5rem;
+  align-items: start;
+}
+.kv {
+  margin: 0;
+}
+.kv dt {
+  font-size: var(--t-petit);
+  color: var(--encre-2);
+}
+.kv dd {
+  margin: 0 0 0.7rem;
+  font-weight: 620;
+  overflow-wrap: anywhere;
+}
+.kv dd:last-child {
+  margin-bottom: 0;
+}
+
+/* Attente : des lignes vierges, pas de roue */
+.attente {
+  display: grid;
+  gap: 0.8rem;
+  padding: 1rem 0;
+}
+.attente span {
+  height: 0.9rem;
+  border-radius: 999px;
+  background: var(--porte-2);
+}
+.attente span:nth-child(2) {
+  width: 72%;
+}
+.attente span:nth-child(3) {
+  width: 46%;
+}
+
+/* ---------- Le seul mouvement signé : les pièces se posent sur la porte ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .se-pose {
+    animation: se-poser 0.7s var(--sortie) both;
+    animation-delay: var(--retard, 0s);
+  }
+  @keyframes se-poser {
+    from {
+      translate: 0 -1.1rem;
+      rotate: calc(var(--penche, 0deg) + 4deg);
+    }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  * {
+    transition: none !important;
+  }
+}
+
+/* ---------- Largeurs ---------- */
+@media (max-width: 62rem) {
+  .une,
+  .deux,
+  .deux.inverse,
+  .accueil {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .pieces .poste {
+    margin-left: -2.5rem;
+  }
+  .planning {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .planning > div {
+    border-left: 0;
+    border-top: var(--trait) solid var(--encre);
+  }
+  .planning > div:first-child {
+    border-top: 0;
+  }
+}
+
+@media (max-width: 56.25rem) {
+  /* Téléphone et petite tablette : la navigation descend en barre, le poste aussi */
+  .espace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .rail {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 30;
+    flex-direction: row;
+    justify-content: center;
+    padding: 0.35rem 0.6rem calc(0.35rem + env(safe-area-inset-bottom, 0px));
+    border-right: 0;
+    border-top: var(--trait) solid var(--encre);
+    background: var(--porte);
+  }
+  .rail .logo {
+    display: none;
+  }
+  .rail nav {
+    flex-direction: row;
+    margin: 0;
+    width: min(100%, 24rem);
+    justify-content: space-between;
+  }
+  .rail nav a {
+    width: auto;
+    flex: 1;
+    padding: 0.35rem 0 0.3rem;
+  }
+  .sujet {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .sujet-cote {
+    position: static;
+  }
+  .sujet-cote .poste {
+    display: none;
+  }
+}
+@media (min-width: 56.3125rem) {
+  /* Écran large : le poste d'un sujet est à côté de la fiche ; ailleurs, la barre se range à droite */
+  .poste-barre {
+    left: auto;
+    right: 1.75rem;
+    bottom: 1.75rem;
+    width: 24rem;
+  }
+  .sur-sujet .poste-barre {
+    display: none;
+  }
+  .volantes {
+    bottom: 7rem;
+  }
+}
+
+@media (max-width: 40rem) {
+  body {
+    font-size: 1rem;
+  }
+  :root {
+    --joint: 0.35rem;
+    --haut: 4.05rem;
+    --r-porte: 20px;
+  }
+  .poignee {
+    display: none;
+  }
+  .porte-haut {
+    padding: 0.4rem 0.75rem;
+  }
+  .porte-haut .logo img {
+    height: 2.5rem;
+  }
+  .porte-haut nav .facultatif {
+    display: none;
+  }
+  .pieces {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .pieces .fiche {
+    grid-row: auto;
+    width: 88%;
+  }
+  .pieces .poste {
+    margin: -5rem 0 0 auto;
+    width: 88%;
+  }
+  .pieces .photo {
+    width: 58%;
+    margin: 1.25rem 0 0;
+  }
+  .semainier th,
+  .semainier td {
+    padding-inline: 0.15rem;
+  }
+  .semainier thead th {
+    font-size: 0.875rem;
+  }
+  .semainier thead th + th,
+  .semainier td {
+    width: 3.45rem;
+  }
+  .coches > li {
+    font-size: 1.0625rem;
+  }
+  .semaines,
+  .programme {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .ticket-total .chiffre {
+    font-size: 2.75rem;
+  }
+  .espace-page {
+    padding: 1.1rem 0.9rem 9.5rem;
+  }
+}
+
+/* ---------- Compléments ---------- */
+.h2 {
+  font-size: var(--t-2);
+}
+.h3 {
+  font-size: var(--t-3);
+  line-height: 1.15;
+}
+.chiffre.grand {
+  font-size: 2.5rem;
+  vertical-align: -0.12em;
+}
+.suite {
+  margin-top: 1rem;
+}
+.poste-attente {
+  margin: 0.5rem 0 0;
+  text-align: center;
+}
+.poste .lien {
+  margin-bottom: 0.5rem;
+}
+/* L'aiguille du cadran tourne autour de son pivot, sous le cadran ; au repos elle penche à gauche */
+.aiguille {
+  transform-box: view-box;
+  transform-origin: 100px 114px;
+  rotate: -52deg;
+}
+.extrait-temps {
+  font-weight: 650;
+  font-size: var(--t-petit);
+}
+.cote {
+  display: grid;
+  gap: 1.5rem;
+}
+.termine-dit {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  font-size: 1.1875rem;
+}
+.termine-dit .ico {
+  width: 1.75rem;
+  height: 1.75rem;
+  color: var(--orange);
+  stroke: var(--encre);
+}
+.terminer-aide {
+  margin: 0.6rem 0 0;
+  text-align: center;
+}
+.bienvenue {
+  max-width: 40rem;
+}
+.bienvenue h1 {
+  font-size: var(--t-2);
+  margin-bottom: 1.25rem;
+}
+.propos > h2 {
+  margin-bottom: 1rem;
+}
+.propos .chapo {
+  font-size: 1.1875rem;
+}
+.propos .piece {
+  width: min(100%, 19rem);
+  margin-top: 2.25rem;
+}
+.piece.penche-gauche {
+  --penche: -2deg;
+}
+.piece.penche-droite {
+  --penche: 2deg;
+  width: min(100%, 22rem);
+  margin-top: 1.5rem;
+  justify-self: center;
+}
+.retard-1 {
+  --retard: 0.12s;
+}
+.retard-2 {
+  --retard: 0.24s;
+}
+.plinthe p {
+  margin: 0;
+}
+.texte-long ol {
+  margin: 0 0 1.25rem;
+  padding-left: 1.4rem;
+}
+.texte-long li {
+  padding: 0.2rem 0;
+}
+.provisoire {
+  margin: -0.75rem 0 1.5rem;
+  color: var(--encre-2);
+  font-size: var(--t-petit);
+}
+.refus[role='note'] {
+  border-color: var(--encre);
+  background: var(--jaune);
+  color: var(--encre);
+}

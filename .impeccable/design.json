@@ -1,0 +1,454 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-04T16:48:18Z",
+  "title": "Design System: NavUp, l'appli des parents",
+  "extensions": {
+    "colorMeta": {
+      "porte": {
+        "role": "neutral",
+        "displayName": "Émail de la porte",
+        "canonical": "#c2dcff",
+        "tonalRamp": [
+          "oklch(15.0% 0.035 255.9)",
+          "oklch(27.0% 0.056 255.9)",
+          "oklch(39.0% 0.056 255.9)",
+          "oklch(51.0% 0.056 255.9)",
+          "oklch(63.0% 0.056 255.9)",
+          "oklch(75.0% 0.053 255.9)",
+          "oklch(86.0% 0.033 255.9)",
+          "oklch(95.0% 0.017 255.9)"
+        ]
+      },
+      "bleu": {
+        "role": "primary",
+        "displayName": "Bleu du logo",
+        "canonical": "#2e4ed2",
+        "tonalRamp": [
+          "oklch(15.0% 0.130 267.3)",
+          "oklch(27.0% 0.206 267.3)",
+          "oklch(39.0% 0.206 267.3)",
+          "oklch(51.0% 0.206 267.3)",
+          "oklch(63.0% 0.206 267.3)",
+          "oklch(75.0% 0.196 267.3)",
+          "oklch(86.0% 0.123 267.3)",
+          "oklch(95.0% 0.064 267.3)"
+        ]
+      },
+      "orange": {
+        "role": "secondary",
+        "displayName": "Orange du logo",
+        "canonical": "#ffbd59",
+        "tonalRamp": [
+          "oklch(15.0% 0.087 75.1)",
+          "oklch(27.0% 0.138 75.1)",
+          "oklch(39.0% 0.138 75.1)",
+          "oklch(51.0% 0.138 75.1)",
+          "oklch(63.0% 0.138 75.1)",
+          "oklch(75.0% 0.131 75.1)",
+          "oklch(86.0% 0.083 75.1)",
+          "oklch(95.0% 0.043 75.1)"
+        ]
+      },
+      "jaune": {
+        "role": "tertiary",
+        "displayName": "Jaune clair",
+        "canonical": "#ffdf7c",
+        "tonalRamp": [
+          "oklch(15.0% 0.078 91.9)",
+          "oklch(27.0% 0.124 91.9)",
+          "oklch(39.0% 0.124 91.9)",
+          "oklch(51.0% 0.124 91.9)",
+          "oklch(63.0% 0.124 91.9)",
+          "oklch(75.0% 0.118 91.9)",
+          "oklch(86.0% 0.074 91.9)",
+          "oklch(95.0% 0.038 91.9)"
+        ]
+      },
+      "feuille": {
+        "role": "neutral",
+        "displayName": "Blanc cassé de la feuille",
+        "canonical": "#f7f8ef",
+        "tonalRamp": [
+          "oklch(15.0% 0.007 111.8)",
+          "oklch(27.0% 0.012 111.8)",
+          "oklch(39.0% 0.012 111.8)",
+          "oklch(51.0% 0.012 111.8)",
+          "oklch(63.0% 0.012 111.8)",
+          "oklch(75.0% 0.011 111.8)",
+          "oklch(86.0% 0.007 111.8)",
+          "oklch(95.0% 0.004 111.8)"
+        ]
+      },
+      "blanc": {
+        "role": "neutral",
+        "displayName": "Blanc",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "oklch(15.0% 0.000 0.0)",
+          "oklch(27.0% 0.000 0.0)",
+          "oklch(39.0% 0.000 0.0)",
+          "oklch(51.0% 0.000 0.0)",
+          "oklch(63.0% 0.000 0.0)",
+          "oklch(75.0% 0.000 0.0)",
+          "oklch(86.0% 0.000 0.0)",
+          "oklch(95.0% 0.000 0.0)"
+        ]
+      },
+      "encre": {
+        "role": "neutral",
+        "displayName": "Encre",
+        "canonical": "#172033",
+        "tonalRamp": [
+          "oklch(15.0% 0.024 264.4)",
+          "oklch(27.0% 0.039 264.4)",
+          "oklch(39.0% 0.039 264.4)",
+          "oklch(51.0% 0.039 264.4)",
+          "oklch(63.0% 0.039 264.4)",
+          "oklch(75.0% 0.037 264.4)",
+          "oklch(86.0% 0.023 264.4)",
+          "oklch(95.0% 0.012 264.4)"
+        ]
+      },
+      "porte-2": {
+        "role": "neutral",
+        "displayName": "Ombre de l'émail",
+        "canonical": "#a9ccfa",
+        "tonalRamp": [
+          "oklch(15.0% 0.047 255.4)",
+          "oklch(27.0% 0.075 255.4)",
+          "oklch(39.0% 0.075 255.4)",
+          "oklch(51.0% 0.075 255.4)",
+          "oklch(63.0% 0.075 255.4)",
+          "oklch(75.0% 0.071 255.4)",
+          "oklch(86.0% 0.045 255.4)",
+          "oklch(95.0% 0.023 255.4)"
+        ]
+      },
+      "feuille-2": {
+        "role": "neutral",
+        "displayName": "Pli de la feuille",
+        "canonical": "#e9eede",
+        "tonalRamp": [
+          "oklch(15.0% 0.014 121.0)",
+          "oklch(27.0% 0.022 121.0)",
+          "oklch(39.0% 0.022 121.0)",
+          "oklch(51.0% 0.022 121.0)",
+          "oklch(63.0% 0.022 121.0)",
+          "oklch(75.0% 0.021 121.0)",
+          "oklch(86.0% 0.013 121.0)",
+          "oklch(95.0% 0.007 121.0)"
+        ]
+      },
+      "encre-2": {
+        "role": "neutral",
+        "displayName": "Encre délavée",
+        "canonical": "#3d4a68",
+        "tonalRamp": [
+          "oklch(15.0% 0.034 266.1)",
+          "oklch(27.0% 0.053 266.1)",
+          "oklch(39.0% 0.053 266.1)",
+          "oklch(51.0% 0.053 266.1)",
+          "oklch(63.0% 0.053 266.1)",
+          "oklch(75.0% 0.051 266.1)",
+          "oklch(86.0% 0.032 266.1)",
+          "oklch(95.0% 0.017 266.1)"
+        ]
+      },
+      "bleu-2": {
+        "role": "primary",
+        "displayName": "Bleu appuyé",
+        "canonical": "#2340b5",
+        "tonalRamp": [
+          "oklch(15.0% 0.118 266.9)",
+          "oklch(27.0% 0.187 266.9)",
+          "oklch(39.0% 0.187 266.9)",
+          "oklch(51.0% 0.187 266.9)",
+          "oklch(63.0% 0.187 266.9)",
+          "oklch(75.0% 0.178 266.9)",
+          "oklch(86.0% 0.112 266.9)",
+          "oklch(95.0% 0.058 266.9)"
+        ]
+      },
+      "alerte": {
+        "role": "neutral",
+        "displayName": "Alerte",
+        "canonical": "#a8261c",
+        "tonalRamp": [
+          "oklch(15.0% 0.106 29.3)",
+          "oklch(27.0% 0.168 29.3)",
+          "oklch(39.0% 0.168 29.3)",
+          "oklch(51.0% 0.168 29.3)",
+          "oklch(63.0% 0.168 29.3)",
+          "oklch(75.0% 0.159 29.3)",
+          "oklch(86.0% 0.100 29.3)",
+          "oklch(95.0% 0.052 29.3)"
+        ]
+      },
+      "alerte-fond": {
+        "role": "neutral",
+        "displayName": "Fond d'alerte",
+        "canonical": "#fde6e1",
+        "tonalRamp": [
+          "oklch(15.0% 0.017 32.2)",
+          "oklch(27.0% 0.026 32.2)",
+          "oklch(39.0% 0.026 32.2)",
+          "oklch(51.0% 0.026 32.2)",
+          "oklch(63.0% 0.026 32.2)",
+          "oklch(75.0% 0.025 32.2)",
+          "oklch(86.0% 0.016 32.2)",
+          "oklch(95.0% 0.008 32.2)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Le h1 d'une page publique."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Titre d'une rubrique ou d'une feuille ; h1 de l'espace et des pages d'une seule feuille."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Titre d'une semaine, d'un geste, d'un intertitre."
+      },
+      "chiffre": {
+        "displayName": "Chiffre",
+        "purpose": "Numéros de sujet sur deux chiffres, et le prix."
+      },
+      "chapo": {
+        "displayName": "Chapo",
+        "purpose": "La phrase sous un titre de page ou de rubrique."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Le texte ; 1rem sous 640 px ; paragraphes bornés à 68ch."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "État, durée, temps du lecteur, aide d'un champ."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "sortie",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "La courbe de tout mouvement : arrivée franche, fin douce."
+      },
+      {
+        "name": "se-poser",
+        "value": "0.7s cubic-bezier(0.16, 1, 0.3, 1) both; from { translate: 0 -1.1rem; rotate: calc(var(--penche, 0deg) + 4deg) }",
+        "purpose": "Le seul mouvement signé : les pièces de la une se posent sur la porte, décalées de 0, 0,12 et 0,24 s. Coupé avec « réduire les animations »."
+      },
+      {
+        "name": "etat",
+        "value": "0.15s",
+        "purpose": "Changement de fond d'un bouton, appui d'un pixel."
+      },
+      {
+        "name": "chevron",
+        "value": "0.2s cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Quart de tour du chevron d'une question."
+      },
+      {
+        "name": "aiguille",
+        "value": "rotate de -52deg à 52deg, montée 0.3 / retombée 0.07 par image",
+        "purpose": "L'aiguille du cadran suit le niveau réel du signal audio ; au repos sans son ou avec « réduire les animations »."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "empile",
+        "value": "62rem"
+      },
+      {
+        "name": "barre-basse",
+        "value": "56.25rem"
+      },
+      {
+        "name": "telephone",
+        "value": "40rem"
+      }
+    ],
+    "stroke": {
+      "name": "trait",
+      "value": "2px solid #172033",
+      "purpose": "Le trait unique du système."
+    },
+    "focus": {
+      "value": "3px solid #2e4ed2, offset 3px",
+      "onBlue": "3px solid #ffbd59"
+    }
+  },
+  "components": [
+    {
+      "name": "Bouton principal (aimant à mots)",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Le geste de la page : pilule bleue au trait d'encre.",
+      "html": "<button class=\"ds-btn\">Rejoindre le programme</button>",
+      "css": ".ds-btn { display: inline-flex; align-items: center; gap: 0.55rem; min-height: 3rem; padding: 0.55rem 1.4rem; border: var(--trait, 2px) solid var(--encre, #172033); border-radius: 999px; background: var(--bleu, #2e4ed2); color: var(--blanc, #fff); font-family: 'Archivo', system-ui, sans-serif; font-size: 1.0625rem; font-weight: 680; line-height: 1.2; cursor: pointer; transition: background-color 0.15s, translate 0.15s cubic-bezier(0.16, 1, 0.3, 1); } @media (hover: hover) { .ds-btn:hover { background: var(--bleu-2, #2340b5); } } .ds-btn:active { translate: 0 1px; } .ds-btn:focus-visible { outline: 3px solid var(--orange, #ffbd59); outline-offset: 3px; }"
+    },
+    {
+      "name": "Bouton feuille",
+      "kind": "button",
+      "refersTo": "button-feuille",
+      "description": "Geste secondaire : même pilule, aplat feuille.",
+      "html": "<button class=\"ds-btn-feuille\">Se connecter</button>",
+      "css": ".ds-btn-feuille { display: inline-flex; align-items: center; min-height: 3rem; padding: 0.55rem 1.4rem; border: var(--trait, 2px) solid var(--encre, #172033); border-radius: 999px; background: var(--feuille, #f7f8ef); color: var(--encre, #172033); font-family: 'Archivo', system-ui, sans-serif; font-size: 1.0625rem; font-weight: 680; cursor: pointer; transition: background-color 0.15s; } @media (hover: hover) { .ds-btn-feuille:hover { background: var(--feuille-2, #e9eede); } } .ds-btn-feuille:active { translate: 0 1px; } .ds-btn-feuille:focus-visible { outline: 3px solid var(--orange, #ffbd59); outline-offset: 3px; }"
+    },
+    {
+      "name": "Bouton orange",
+      "kind": "button",
+      "refersTo": "button-orange",
+      "description": "Réservé à « Marquer comme terminé ».",
+      "html": "<button class=\"ds-btn-orange\"><svg viewBox=\"0 0 24 24\" width=\"22\" height=\"22\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m5 12.5 4.5 4.5L19 7.5\"/></svg> Marquer comme terminé</button>",
+      "css": ".ds-btn-orange { display: inline-flex; align-items: center; gap: 0.55rem; min-height: 3rem; padding: 0.55rem 1.4rem; border: var(--trait, 2px) solid var(--encre, #172033); border-radius: 999px; background: var(--orange, #ffbd59); color: var(--encre, #172033); font-family: 'Archivo', system-ui, sans-serif; font-size: 1.0625rem; font-weight: 680; cursor: pointer; transition: background-color 0.15s; } @media (hover: hover) { .ds-btn-orange:hover { background: var(--jaune, #ffdf7c); } } .ds-btn-orange:active { translate: 0 1px; } .ds-btn-orange:focus-visible { outline: 3px solid var(--orange, #ffbd59); outline-offset: 3px; }"
+    },
+    {
+      "name": "Feuille et son aimant",
+      "kind": "card",
+      "refersTo": "feuille",
+      "description": "Tout ce qui se lit : une feuille au trait, tenue par un aimant rond en aplat.",
+      "html": "<section class=\"ds-feuille\"><span class=\"ds-aimant\"></span><h3 class=\"ds-feuille-titre\">Cette semaine</h3><p class=\"ds-feuille-texte\">Trois sujets sont ouverts. Ce qui est ouvert reste à vous.</p></section>",
+      "css": ".ds-feuille { position: relative; margin-top: 1.125rem; padding: 2.5rem 1.75rem 1.75rem; border: var(--trait, 2px) solid var(--encre, #172033); border-radius: 18px; background: var(--feuille, #f7f8ef); color: var(--encre, #172033); font-family: 'Archivo', system-ui, sans-serif; max-width: 26rem; } .ds-aimant { position: absolute; top: -1.125rem; left: 50%; translate: -50% 0; width: 2.25rem; height: 2.25rem; border: var(--trait, 2px) solid var(--encre, #172033); border-radius: 50%; background: var(--orange, #ffbd59); } .ds-feuille-titre { margin: 0 0 0.75rem; font-family: 'Tropika', 'Londrina Solid', 'Archivo', system-ui, sans-serif; font-weight: 900; font-size: 2rem; line-height: 1.02; } .ds-feuille-texte { margin: 0; font-size: 1.0625rem; line-height: 1.55; }"
+    },
+    {
+      "name": "Feuille à venir",
+      "kind": "card",
+      "refersTo": "feuille",
+      "description": "Une semaine qui attend son jour : pâlie, en tirets, aimant couleur de feuille à cadenas, date écrite.",
+      "html": "<section class=\"ds-attend\"><span class=\"ds-aimant-blanc\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><rect x=\"5\" y=\"11\" width=\"14\" height=\"9\" rx=\"2\"/><path d=\"M8 11V8a4 4 0 0 1 8 0v3\"/></svg></span><h3 class=\"ds-attend-titre\">Semaine 4</h3><p class=\"ds-attend-texte\">Disponible le 9 octobre.</p></section>",
+      "css": ".ds-attend { position: relative; margin-top: 1.125rem; padding: 2.25rem 1.5rem 1.5rem; border: var(--trait, 2px) dashed var(--encre, #172033); border-radius: 18px; background: color-mix(in srgb, var(--feuille, #f7f8ef) 45%, var(--porte, #c2dcff)); color: var(--encre, #172033); font-family: 'Archivo', system-ui, sans-serif; max-width: 22rem; } .ds-aimant-blanc { position: absolute; top: -1.125rem; left: 2.25rem; width: 2.25rem; height: 2.25rem; display: grid; place-items: center; border: var(--trait, 2px) solid var(--encre, #172033); border-radius: 50%; background: var(--feuille, #f7f8ef); } .ds-attend-titre { margin: 0 0 0.5rem; font-family: 'Tropika', 'Londrina Solid', 'Archivo', system-ui, sans-serif; font-weight: 900; font-size: 1.5rem; line-height: 1.15; } .ds-attend-texte { margin: 0; font-size: 1.0625rem; }"
+    },
+    {
+      "name": "Étiquette d'un sujet",
+      "kind": "custom",
+      "refersTo": "etiquette",
+      "description": "Une ligne par sujet : numéro en police des titres, titre et durée, état écrit.",
+      "html": "<a class=\"ds-etiquette\" href=\"#\"><span class=\"ds-etiquette-numero\">08</span><span class=\"ds-etiquette-titre\">L'insolence<span class=\"ds-etiquette-meta\">8 min 05</span></span><span class=\"ds-etiquette-etat\">En cours</span></a>",
+      "css": ".ds-etiquette { display: grid; grid-template-columns: 2.4rem minmax(0, 1fr) auto; gap: 0.25rem 0.85rem; align-items: center; min-height: 3.5rem; padding: 0.6rem 0.25rem; border-top: var(--trait, 2px) solid var(--feuille-2, #e9eede); background: var(--feuille, #f7f8ef); color: var(--encre, #172033); text-decoration: none; font-family: 'Archivo', system-ui, sans-serif; max-width: 28rem; } @media (hover: hover) { .ds-etiquette:hover { background: var(--feuille-2, #e9eede); } .ds-etiquette:hover .ds-etiquette-titre { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 0.2em; } } .ds-etiquette:focus-visible { outline: 3px solid var(--bleu, #2e4ed2); outline-offset: 3px; border-radius: 6px; } .ds-etiquette-numero { font-family: 'Tropika', 'Londrina Solid', 'Archivo', system-ui, sans-serif; font-weight: 900; font-size: 1.75rem; line-height: 1; color: var(--bleu, #2e4ed2); } .ds-etiquette-titre { font-weight: 620; line-height: 1.3; } .ds-etiquette-meta { display: block; font-size: 0.9375rem; font-weight: 420; color: var(--encre-2, #3d4a68); } .ds-etiquette-etat { font-size: 0.9375rem; font-weight: 650; white-space: nowrap; }"
+    },
+    {
+      "name": "La poignée (navigation)",
+      "kind": "nav",
+      "refersTo": "rail-lien-actif",
+      "description": "La navigation de l'espace : une pilule feuille, l'entrée active en aplat bleu. Verticale au-dessus de 900 px, couchée en barre basse en dessous.",
+      "html": "<nav class=\"ds-poignee\"><a class=\"ds-poignee-lien ds-ici\" href=\"#\"><svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m4 11 8-7 8 7v8a1 1 0 0 1-1 1h-4v-6h-6v6H5a1 1 0 0 1-1-1z\"/></svg>Accueil</a><a class=\"ds-poignee-lien\" href=\"#\"><svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M9 6h11M9 12h11M9 18h11\"/><path d=\"M4.5 6h.01M4.5 12h.01M4.5 18h.01\" stroke-width=\"3\"/></svg>Programme</a><a class=\"ds-poignee-lien\" href=\"#\"><svg viewBox=\"0 0 24 24\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"8\" r=\"4\"/><path d=\"M4.5 20a7.5 7.5 0 0 1 15 0\"/></svg>Profil</a></nav>",
+      "css": ".ds-poignee { display: inline-flex; gap: 0.35rem; padding: 0.4rem; border: var(--trait, 2px) solid var(--encre, #172033); border-radius: 999px; background: var(--feuille, #f7f8ef); font-family: 'Archivo', system-ui, sans-serif; } .ds-poignee-lien { display: grid; justify-items: center; gap: 0.1rem; width: 5.75rem; padding: 0.6rem 0 0.5rem; border-radius: 999px; color: var(--encre, #172033); font-size: 0.8125rem; font-weight: 650; text-decoration: none; } @media (hover: hover) { .ds-poignee-lien:hover { background: var(--feuille-2, #e9eede); } } .ds-poignee-lien.ds-ici { background: var(--bleu, #2e4ed2); color: var(--blanc, #fff); } .ds-poignee-lien:focus-visible { outline: 3px solid var(--bleu, #2e4ed2); outline-offset: 3px; }"
+    },
+    {
+      "name": "Champ de saisie",
+      "kind": "input",
+      "refersTo": "champ",
+      "description": "Libellé au-dessus, champ blanc au trait d'encre, aide dessous.",
+      "html": "<label class=\"ds-champ\"><span>E-mail</span><input type=\"email\" placeholder=\"vous@exemple.fr\"><small>Ce sera l'identifiant de votre espace.</small></label>",
+      "css": ".ds-champ { display: grid; gap: 0.35rem; max-width: 24rem; color: var(--encre, #172033); font-family: 'Archivo', system-ui, sans-serif; font-size: 1.0625rem; } .ds-champ > span { font-weight: 650; } .ds-champ input { width: 100%; min-height: 3rem; padding: 0.6rem 0.85rem; border: var(--trait, 2px) solid var(--encre, #172033); border-radius: 12px; background: var(--blanc, #fff); color: var(--encre, #172033); font: inherit; caret-color: var(--bleu, #2e4ed2); } .ds-champ input::placeholder { color: var(--encre-2, #3d4a68); } .ds-champ input:focus-visible { outline: 3px solid var(--bleu, #2e4ed2); outline-offset: 3px; } .ds-champ small { font-size: 0.9375rem; color: var(--encre-2, #3d4a68); }"
+    },
+    {
+      "name": "Le poste (barre)",
+      "kind": "custom",
+      "refersTo": "poste",
+      "description": "Le lecteur audio en barre : pochette, titre et temps, lecture, liseré d'avancement.",
+      "html": "<div class=\"ds-poste\"><span class=\"ds-poste-pochette\"></span><span class=\"ds-poste-titre\"><strong>01 · Le corps qui change</strong><span>2:14 sur 8:23</span></span><button class=\"ds-poste-lecture\" aria-label=\"Lancer la lecture\"><svg viewBox=\"0 0 24 24\" width=\"22\" height=\"22\" fill=\"currentColor\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linejoin=\"round\"><path d=\"M8 5.5v13l11-6.5z\"/></svg></button><span class=\"ds-poste-avance\"></span></div>",
+      "css": ".ds-poste { position: relative; display: grid; grid-template-columns: 3rem minmax(0, 1fr) auto; gap: 0.75rem; align-items: center; width: 24rem; max-width: 100%; padding: 0.5rem 0.6rem; border: var(--trait, 2px) solid var(--encre, #172033); border-radius: 18px; background: var(--jaune, #ffdf7c); color: var(--encre, #172033); font-family: 'Archivo', system-ui, sans-serif; } .ds-poste-pochette { aspect-ratio: 1; border: var(--trait, 2px) solid var(--encre, #172033); border-radius: 8px; background: var(--porte, #c2dcff); } .ds-poste-titre { display: grid; min-width: 0; font-size: 1.0625rem; } .ds-poste-titre strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .ds-poste-titre span { font-size: 0.9375rem; } .ds-poste-lecture { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; padding: 0; border: var(--trait, 2px) solid var(--encre, #172033); border-radius: 50%; background: var(--bleu, #2e4ed2); color: var(--blanc, #fff); cursor: pointer; transition: background-color 0.15s; } @media (hover: hover) { .ds-poste-lecture:hover { background: var(--bleu-2, #2340b5); } } .ds-poste-lecture:focus-visible { outline: 3px solid var(--orange, #ffbd59); outline-offset: 3px; } .ds-poste-avance { position: absolute; left: 1rem; right: 1rem; bottom: -1px; height: 3px; border-radius: 3px; background: linear-gradient(to right, var(--bleu, #2e4ed2) 27%, transparent 27%); }"
+    },
+    {
+      "name": "Ticket de prix",
+      "kind": "custom",
+      "refersTo": "ticket",
+      "description": "Ce que comprend l'offre et son prix, lu dans l'API (le montant montré ici est un exemple d'affichage).",
+      "html": "<div class=\"ds-ticket\"><span class=\"ds-ticket-aimant\"></span><ul><li>40 audios progressifs</li><li>Des fiches pratiques</li></ul><p class=\"ds-ticket-total\"><span>Programme complet</span><span class=\"ds-ticket-chiffre\">{{ prix }}</span></p><p class=\"ds-ticket-suite\">Sans abonnement. Sans renouvellement automatique.</p></div>",
+      "css": ".ds-ticket { position: relative; margin-top: 1.125rem; padding: 2rem 1.4rem 1.25rem; border: var(--trait, 2px) solid var(--encre, #172033); border-radius: 6px; background: var(--blanc, #fff); color: var(--encre, #172033); font-family: 'Archivo', system-ui, sans-serif; font-size: 1.0625rem; font-weight: 560; max-width: 24rem; } .ds-ticket-aimant { position: absolute; top: -1.125rem; left: 50%; translate: -50% 0; width: 2.25rem; height: 2.25rem; border: var(--trait, 2px) solid var(--encre, #172033); border-radius: 50%; background: var(--orange, #ffbd59); } .ds-ticket ul { list-style: none; margin: 0; padding: 0; } .ds-ticket li { padding: 0.5rem 0; border-bottom: 2px dashed var(--porte-2, #a9ccfa); } .ds-ticket-total { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; margin: 1rem 0 0; font-weight: 700; } .ds-ticket-chiffre { font-family: 'Tropika', 'Londrina Solid', 'Archivo', system-ui, sans-serif; font-weight: 900; font-size: 2rem; line-height: 1; } .ds-ticket-suite { margin: 0.6rem 0 0; font-size: 0.9375rem; font-weight: 500; color: var(--encre-2, #3d4a68); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "La porte du frigo",
+    "overview": "**Creative North Star: \"La porte du frigo\"**\n\nTout l'écran est la porte en émail bleu clair du frigo familial : l'endroit de la maison où l'on aimante ce qui compte cette semaine. Il y a deux portes, celle du haut (le logo, un lien) et la grande (le contenu), séparées par un joint. Sur la porte tiennent des feuilles, chacune sous son aimant ; les sujets y sont des étiquettes numérotées ; le lecteur audio est un petit poste jaune posé là. Le système tient dans un seul fichier, `src/styles.scss` : des jetons, puis des classes globales, aucun style de composant.\n\nTout est dessiné, rien n'imite la matière : un seul trait de 2 px à l'encre, des aplats, aucune ombre. La page publique et l'espace personnel sont la même porte. La première est plus bavarde (une vraie fiche et des photos posées de travers, un poste dont l'aiguille bouge avec le vrai son, un ticket de prix) ; le second est plus calme (les feuilles restent droites, la poignée devient la navigation, l'aimant dit l'état d'une semaine).\n\nLe ton du produit commande le reste : « sans pression ni culpabilisation ». La progression se dit en une phrase et en une rangée d'aimants, jamais en pourcentage ; une semaine à venir est une feuille pâlie qui porte sa date, jamais un compte à rebours.",
+    "keyCharacteristics": [
+      "Deux portes et leur joint (0,6 rem), en pleine page, bordées du trait d'encre.",
+      "Feuilles blanc cassé tenues par un aimant rond en aplat ; l'aimant dit aussi un état.",
+      "Un seul trait (2 px, encre), des aplats, aucune ombre, aucun dégradé de teinte.",
+      "Titres et numéros en Londrina Solid 900 (à la place de Tropika), texte en Archivo.",
+      "Les pièces rapportées (fiche réelle, photos) penchent de 2 à 3° ; le texte reste droit.",
+      "Un seul mouvement signé : les pièces « se posent » sur la porte.",
+      "Cibles de 44 px, texte de lecture à 17 px (16 px sur téléphone), survols réservés aux pointeurs qui survolent."
+    ],
+    "rules": [
+      {
+        "name": "La règle de l'aplat",
+        "body": "Une couleur est posée pleine, d'un bord à l'autre de sa forme. Pas de dégradé de teinte, pas de transparence décorative. La seule coupe permise est franche : la piste audio est bleue jusqu'à la position de lecture, puis feuille.",
+        "section": "colors"
+      },
+      {
+        "name": "La règle de l'aimant qui parle",
+        "body": "Dans l'espace personnel, la couleur d'un aimant est un état, toujours doublé d'un mot écrit : orange nu pour la semaine en cours (« En cours »), orange à étoile pour une semaine terminée (« Terminée »), jaune pour une semaine disponible, couleur de feuille à cadenas pour une semaine à venir (« Disponible le… »). Sur la page publique, où rien n'a d'état, l'aimant d'une semaine prend la couleur de son pilier, et la légende des piliers est écrite au-dessus.",
+        "section": "colors"
+      },
+      {
+        "name": "La règle de l'attente pâle",
+        "body": "Ce qui n'est pas encore ouvert est plus pâle et en pointillés (feuille mêlée à 55 % de porte, trait en tirets), jamais grisé, jamais barré.",
+        "section": "colors"
+      },
+      {
+        "name": "La règle du feutre",
+        "body": "La police des titres ne sert qu'aux titres, aux numéros et au prix. Jamais à une phrase, à un bouton, à un libellé de champ.",
+        "section": "typography"
+      },
+      {
+        "name": "La règle du texte droit",
+        "body": "Un titre ou un paragraphe ne penche jamais. Seules penchent les pièces rapportées, qui sont des images.",
+        "section": "typography"
+      },
+      {
+        "name": "La règle des 44 px",
+        "body": "Toute commande au doigt fait au moins 44 px (`--cible`) : boutons (48 px, 57 px en grand), liens-gestes, cases à cocher et leur ligne, vitesses du lecteur, curseur de piste, entrées de navigation.",
+        "section": "layout"
+      },
+      {
+        "name": "La règle du trait unique",
+        "body": "Un seul trait : 2 px, plein, à l'encre (`--trait`). Il borde les portes, les feuilles, les aimants, les boutons, les champs, les pièces, le poste. Il ne change d'épaisseur nulle part ; il passe en tirets pour dire « à venir » ou pour les lignes du ticket, et en `porte-2` ou `feuille-2` pour un filet entre deux lignes. Les icônes sont dessinées du même trait de 2, bouts ronds.",
+        "section": "elevation"
+      },
+      {
+        "name": "La règle sans ombre",
+        "body": "Si une forme a besoin d'une ombre pour se lire, c'est qu'il lui manque son trait ou son aplat.",
+        "section": "elevation"
+      },
+      {
+        "name": "La règle des pièces penchées",
+        "body": "Une pièce rapportée penche de 2 à 3° (`--penche` : 2° pour la fiche, −3° ou ±2° pour une photo). Jamais plus, jamais une feuille de texte, jamais dans l'espace personnel, où la fiche se lit droite.",
+        "section": "shapes"
+      }
+    ],
+    "dos": [
+      "Do poser tout contenu à lire sur une feuille (`feuille`, trait de 2 px, rayon de 18 px), et la tenir par un aimant quand elle ouvre une page ou une rubrique.",
+      "Do garder un seul trait : 2 px, encre, plein ; en tirets seulement pour « à venir » et pour les lignes du ticket.",
+      "Do écrire l'état à côté de sa couleur : « En cours », « Terminée », « Disponible le 9 octobre ». L'aimant, l'étoile et le cadenas ne portent jamais l'information seuls.",
+      "Do dire la progression en une phrase (« 11 sujets terminés sur 40 ») et en une rangée d'aimants.",
+      "Do écrire tout survol sous `@media (hover: hover)`, et donner 44 px à toute commande au doigt.",
+      "Do garder le texte de lecture à 17 px (16 px sur téléphone) et le texte secondaire à 15 px au moins, en `encre` ou `encre-2`.",
+      "Do lire le prix dans l'API et le passer par la fonction d'affichage ; sans réponse, ne pas montrer de chiffre.",
+      "Do montrer les vraies pièces : la fiche du client telle qu'elle est écrite, un vrai extrait, les vrais titres des quarante sujets. Un texte provisoire se signale comme provisoire sur la page.",
+      "Do réserver le penché et le mouvement « se poser » aux pièces rapportées de la page publique.",
+      "Do respecter « réduire les animations » : rien ne se pose, rien ne glisse, l'aiguille reste au repos."
+    ],
+    "donts": [
+      "Don't poser d'ombre, portée ou diffuse, ni de flou, sur quoi que ce soit.",
+      "Don't fondre deux teintes en dégradé. La seule coupe de couleur admise est franche : la part écoulée d'une piste audio.",
+      "Don't faire de cartes à icône (une icône, un titre, deux lignes, répétés en grille). Les arguments sont une liste à coches sur une seule feuille.",
+      "Don't mettre de petit intitulé au-dessus d'un titre. Un titre se suffit ; une précision vient dessous ou à côté.",
+      "Don't afficher de chiffre géant de progression, de pourcentage, d'anneau ou de jauge.",
+      "Don't compter les jours : ni série, ni retard, ni « depuis votre dernière visite », ni compte à rebours. Une date de disponibilité s'écrit comme une date.",
+      "Don't écrire un prix en dur dans une page.",
+      "Don't inventer un texte ou une preuve : pas de témoignage, de garantie, de portrait du fondateur, de chiffre d'audience qui ne soit fourni par le client.",
+      "Don't pencher un titre, un paragraphe ou une feuille de texte.",
+      "Don't griser ce qui est verrouillé ; le pâlir et le mettre en tirets, avec sa date.",
+      "Don't utiliser la police des titres pour une phrase, un bouton ou un libellé.",
+      "Don't ajouter une teinte hors de la palette du client, ni un gris neutre : le texte secondaire est `encre-2`.",
+      "Don't étirer ni redessiner les logos, ni incruster un titre sur une pochette."
+    ]
+  }
+}
