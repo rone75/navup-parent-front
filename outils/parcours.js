@@ -312,6 +312,60 @@ function suivre(page) {
     const { SEMAINES } = await lirePage(browser);
     verifier(deLApi.length === 40 && JSON.stringify(deLApi) === JSON.stringify(SEMAINES), 'page publique : ses quarante titres et leur semaine sont ceux de la formation', `${deLApi.length} sujets servis`);
 
+    // ---------- Vos données (étape 8) : télécharger, supprimer son compte ----------
+    {
+      const email = 'essai.donnees@navup.local';
+      const donnees = preparerParent({ email, debut: -10 });
+      const ctxD = await contexte(browser, VIEWPORTS.mobile, { hasTouch: true, isMobile: true, acceptDownloads: true });
+      const pD = await ctxD.newPage();
+      suivre(pD);
+      await entrer(pD, donnees.lien);
+      await pD.goto(BASE + '/espace/profil');
+      await pD.waitForSelector('[data-bloc=donnees]');
+      await pD.click('[data-bloc=donnees] button:has-text("Télécharger mes données")');
+      await pD.fill('#mdp-donnees', 'pas le bon mot de passe');
+      await pD.click('[data-bloc=donnees] button[type=submit]');
+      await pD.waitForSelector('[data-bloc=donnees] .refus');
+      verifier(/pas votre mot de passe/.test(await pD.textContent('[data-bloc=donnees] .refus')) && /\/espace\/profil$/.test(pD.url()), 'Vos données : un mauvais mot de passe est refusé, la session reste');
+      await pD.fill('#mdp-donnees', MOT_DE_PASSE);
+      const [telechargement] = await Promise.all([pD.waitForEvent('download'), pD.click('[data-bloc=donnees] button[type=submit]')]);
+      const contenu = JSON.parse(fs.readFileSync(await telechargement.path(), 'utf8'));
+      verifier(
+        contenu.identite?.email === email && contenu.achats?.length >= 1 && contenu.programmes?.length === 1 && /^mes-donnees-navup-\d{4}-\d{2}-\d{2}\.json$/.test(telechargement.suggestedFilename()),
+        'Télécharger mes données : un fichier JSON avec l’identité, les achats et le programme',
+        telechargement.suggestedFilename(),
+      );
+      verifier((await pD.evaluate(() => Object.keys(localStorage))).length === 1, 'Télécharger mes données : rien de plus dans le stockage local');
+
+      const sessionD = (await api(API_ESPACE, 'POST', 'session/', { corps: { email, pass: enrober(MOT_DE_PASSE) } })).json.token;
+      const b = await api(API_ESPACE, 'POST', 'profil/donnees/', { jeton: sessionD, corps: { pass: enrober(MOT_DE_PASSE) } });
+      const u1 = await api(API_PUBLIC, 'POST', 'donnees/', { corps: { billet: b.json.billet } });
+      const u2 = await api(API_PUBLIC, 'POST', 'donnees/', { corps: { billet: b.json.billet } });
+      verifier(b.status === 201 && u1.status === 200 && u2.status === 401, 'billet de données : il ne sert qu’une fois', `${b.status} ${u1.status} ${u2.status}`);
+      const br = await api(API_ESPACE, 'POST', 'rendez-vous/billet/', { jeton: sessionD });
+      const u3 = await api(API_PUBLIC, 'POST', 'donnees/', { corps: { billet: br.json.billet } });
+      verifier(br.status === 201 && u3.status === 401, 'un billet de rendez-vous n’ouvre pas les données', `${br.status} ${u3.status}`);
+
+      await pD.click('[data-bloc=donnees] button:has-text("Supprimer mon compte")');
+      await pD.waitForSelector('#mdp-suppression');
+      verifier(/Ce qui reste/.test(await pD.textContent('[data-bloc=donnees]')), 'Supprimer mon compte : ce qui part et ce qui reste, avant de confirmer');
+      await pD.fill('#mdp-suppression', MOT_DE_PASSE);
+      await pD.click('[data-bloc=donnees] button.btn-alerte');
+      await pD.waitForURL(/\/connexion$/);
+      const apres = await api(API_ESPACE, 'GET', 'session/', { jeton: sessionD });
+      const reconnexion = await api(API_ESPACE, 'POST', 'session/', { corps: { email, pass: enrober(MOT_DE_PASSE) } });
+      verifier(
+        apres.status === 401 && reconnexion.status === 401 && (await pD.evaluate(() => Object.keys(localStorage).length)) === 0,
+        'Supprimer mon compte : l’espace se ferme aussitôt (toutes les sessions, le mot de passe)',
+        `${apres.status} ${reconnexion.status}`,
+      );
+      const passe = php('planifie.php', '--passe=rgpd');
+      php('planifie.php', '--passe=taches');
+      const alertes = JSON.parse(php('essai-alertes.php', `--email=${email}`)).alertes;
+      verifier(/1 demande d'effacement signalée/.test(passe) && alertes.includes('demande_effacement'), 'la demande arrive à NavUp : avis à l’administrateur et tâche', `${passe} | ${alertes.join(', ')}`);
+      await ctxD.close();
+    }
+
     // ---------- Cohérence, côté serveur ----------
     for (const [script, dossier] of [
       ['verifier-espace.php', API_ESPACE.includes('navup-parent-api') ? '/var/www/navup-parent-api' : null],

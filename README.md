@@ -18,7 +18,7 @@ ng build --configuration development    # build de contrôle : il doit passer sa
 npm test                                # tests unitaires Vitest
 ```
 
-Les adresses des deux API, du site et du contact sont dans `src/app/core/config.ts`, à adapter avant un build de production.
+Les adresses des deux API viennent de `src/environments/` (`environment.production.ts` pour `npm run build`) ; celles du site et du contact restent dans `src/app/core/config.ts`. `public/.htaccess` porte la politique de contenu (`script-src 'self'`, sans script en ligne), les origines des API venant du vhost (`NAVUP_CONNECT`, voir `navup-api/deploiement/`).
 
 ## Rendu : des pages publiques écrites au build
 

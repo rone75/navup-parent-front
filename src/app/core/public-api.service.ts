@@ -65,6 +65,11 @@ export type GesteEspace =
 export class PublicApiService {
   private readonly http = inject(HttpClient);
 
+  /** Les données du parent (RGPD), sur présentation d'un billet « données » de l'API des parents. 401 : billet périmé. */
+  donnees(billet: string): Observable<Record<string, unknown>> {
+    return this.http.post<{ donnees: Record<string, unknown> }>(`${API_PUBLIC}donnees/`, { billet }).pipe(map((r) => r.donnees));
+  }
+
   offre(): Observable<Offre> {
     return this.http.get<{ offre: Offre }>(`${API_PUBLIC}offre/`).pipe(map((r) => r.offre));
   }

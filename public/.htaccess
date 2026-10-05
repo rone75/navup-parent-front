@@ -26,6 +26,13 @@ RewriteRule ^ /index.csr.html [L]
     </FilesMatch>
     Header set X-Content-Type-Options "nosniff"
     Header set Referrer-Policy "strict-origin-when-cross-origin"
+    Header set X-Frame-Options "DENY"
+    Header set Permissions-Policy "camera=(), microphone=(), geolocation=(), usb=()"
+    # NAVUP_CONNECT : les origines des deux API (« https://api.navup.fr https://api-espace.navup.fr »), posées dans le vhost.
+    # Le paiement se fait par redirection vers Stripe : aucune source Stripe ici. Aucun script en ligne : ni relecture
+    # des événements à l'hydratation, ni CSS critique en ligne (app.config.ts, angular.json).
+    Header set Content-Security-Policy "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; font-src 'self'; connect-src 'self' %{NAVUP_CONNECT}e; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+    Header always set Strict-Transport-Security "max-age=31536000" "expr=%{HTTPS} == 'on'"
 </IfModule>
 
 <IfModule mod_deflate.c>

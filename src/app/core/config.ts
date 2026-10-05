@@ -1,10 +1,12 @@
-// Adresses des deux API, à adapter avant un build de production.
+import { environment } from '../../environments/environment';
+
+// Adresses des deux API : celles de l'environnement du build (src/environments/).
 
 /** API de l'espace personnel (dépôt navup-parent-api) : accès, programme, médias, progression. */
-export const API_ESPACE = 'http://localhost/navup-parent-api/v1/';
+export const API_ESPACE = environment.apiEspace;
 
 /** Endpoints publics de la Tour de contrôle (dépôt navup-api) : offre, commande, demande d'un lien d'accès. */
-export const API_PUBLIC = 'http://localhost/navup-api/v1/public/';
+export const API_PUBLIC = environment.apiPublic;
 
 /** Adresse de contact écrite dans l'appli. */
 export const CONTACT = 'contact@navup.fr';

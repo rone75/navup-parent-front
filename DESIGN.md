@@ -302,6 +302,9 @@ L'aimant est un disque de 2,25 rem, centré sur le bord haut de sa feuille, ou c
 - **Focus :** contour de 3 px à 3 px d'écart, bleu ; orange sur un bouton ou sur fond bleu.
 - **Lien-geste :** un lien souligné au trait, 650, bleu, dont la zone fait 44 px de haut ; pour un geste discret (« Voir les 12 semaines », « Ouvrir la fiche en PDF », « Je préfère y revenir »).
 
+### Vos données
+Une feuille du profil, après « NavUp ». Une phrase, puis deux gestes : « Télécharger mes données » (aimant feuille) et « Supprimer mon compte » (lien souligné, jamais un bouton qui attire). Chacun s'ouvre en place dans la feuille, avec le mot de passe à retaper. La suppression dit d'abord, en liste clé / valeur, « Tout de suite », « Dans le mois » et « Ce qui reste », conseille de télécharger ses données avant, et ne propose qu'un seul bouton plein : « Supprimer mon compte », couleur alerte (`--alerte`, blanc dessus), à côté du lien « Garder mon compte ». C'est le seul bouton d'alerte de l'appli.
+
 ### Le poste
 - **Corps :** aplat jaune, trait d'encre, rayon de 18 px. En tête, la pochette du sujet (carrée, rayon 12 px, bordée) et le titre précédé de son numéro.
 - **Piste :** temps écoulé, curseur, temps restant (« −4:12 »). Piste en pilule bordée, bleue jusqu'à la position ; curseur en disque orange bordé ; zone de 44 px de haut.

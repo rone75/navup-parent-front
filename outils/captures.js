@@ -210,6 +210,11 @@ const seule = process.argv[3];
       await page.goto(BASE + '/espace/profil');
       await page.waitForSelector('.profil');
       await capturer('profil');
+      // Vos données (étape 8) : la suppression ouverte, avant confirmation (rien n'est envoyé)
+      await page.click('[data-bloc=donnees] button:has-text("Supprimer mon compte")');
+      await page.waitForSelector('#mdp-suppression');
+      await capturer('profil-supprimer');
+      await page.click('[data-bloc=donnees] button:has-text("Garder mon compte")');
 
       // Rendez-vous de l'espace : ils demandent un billet de l'API des parents
       const prendre = async (suffixe) => {

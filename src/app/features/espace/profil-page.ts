@@ -1,8 +1,12 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, Injector, afterNextRender, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
 import { apiErrorMessage } from '../../core/api-error';
 import { CONTACT } from '../../core/config';
+import { EspaceApiService } from '../../core/espace-api.service';
+import { telechargerDonnees } from '../../core/fichier';
+import { PublicApiService } from '../../core/public-api.service';
 import { jourEcrit } from '../../core/format';
 import { LecteurService } from '../../core/lecteur.service';
 import { SessionService } from '../../core/session.service';
@@ -14,7 +18,8 @@ const LONGUEUR_MIN = 10;
 
 /**
  * Profil : l'identité du parent (tenue par NavUp, donc en lecture), les dates de son programme, sa préférence
- * d'e-mail, son mot de passe, la déconnexion. Le profil reste lisible quel que soit l'état de l'accès.
+ * d'e-mail, son mot de passe, ses droits sur ses données (les télécharger, supprimer son compte), la déconnexion.
+ * Le profil reste lisible quel que soit l'état de l'accès.
  */
 @Component({
   selector: 'app-profil-page',
@@ -88,7 +93,60 @@ const LONGUEUR_MIN = 10;
             <li><a routerLink="/confidentialite">Politique de confidentialité</a></li>
             <li><a routerLink="/mentions-legales">Mentions légales</a></li>
           </ul>
-          <p class="petit secondaire suite">Pour supprimer votre compte et vos données, écrivez-nous : nous le faisons à votre demande.</p>
+        </section>
+
+        <section class="feuille" aria-labelledby="titre-donnees" data-bloc="donnees">
+          <h2 id="titre-donnees" class="h3">Vos données</h2>
+          @switch (geste()) {
+            @case ('telecharger') {
+              <form (ngSubmit)="telecharger()" novalidate>
+                <p>Un fichier avec ce que NavUp garde à votre sujet : ce que vous nous avez dit de votre famille, vos achats et paiements, vos rendez-vous, les e-mails reçus, votre progression.</p>
+                <label class="champ">
+                  <span>Votre mot de passe, pour confirmer</span>
+                  <input id="mdp-donnees" type="password" name="pass" [(ngModel)]="motDePasse" autocomplete="current-password" required />
+                </label>
+                @if (refus(); as r) {
+                  <p class="refus" role="alert"><app-icon nom="alerte" /> <span>{{ r }}</span></p>
+                }
+                <div class="donnees-gestes">
+                  <button class="btn" type="submit" [disabled]="occupe()">Télécharger</button>
+                  <button class="lien" type="button" (click)="fermer()">Annuler</button>
+                </div>
+              </form>
+            }
+            @case ('supprimer') {
+              <form (ngSubmit)="supprimer()" novalidate>
+                <p><strong>Supprimer votre compte&nbsp;?</strong></p>
+                <dl class="kv">
+                  <dt>Tout de suite</dt>
+                  <dd>Votre espace se ferme, sur tous vos appareils, et votre mot de passe est effacé.</dd>
+                  <dt>Dans le mois</dt>
+                  <dd>NavUp efface ce que vous nous avez confié sur votre famille, nos échanges, vos rendez-vous et votre progression.</dd>
+                  <dt>Ce qui reste</dt>
+                  <dd>Vos achats et paiements, le temps que la loi impose de garder les pièces comptables (10 ans), puis votre nom avec eux.</dd>
+                </dl>
+                <p class="petit secondaire suite">Vous voulez garder une copie de vos données&nbsp;? Téléchargez-les d’abord : ensuite, ce ne sera plus possible.</p>
+                <label class="champ">
+                  <span>Votre mot de passe, pour confirmer</span>
+                  <input id="mdp-suppression" type="password" name="pass" [(ngModel)]="motDePasse" autocomplete="current-password" required />
+                </label>
+                @if (refus(); as r) {
+                  <p class="refus" role="alert"><app-icon nom="alerte" /> <span>{{ r }}</span></p>
+                }
+                <div class="donnees-gestes">
+                  <button class="btn btn-alerte" type="submit" [disabled]="occupe()">Supprimer mon compte</button>
+                  <button class="lien" type="button" (click)="fermer()">Garder mon compte</button>
+                </div>
+              </form>
+            }
+            @default {
+              <p>NavUp garde ce que vous nous avez confié pour vous accompagner. Vous pouvez en recevoir une copie, ou supprimer votre compte.</p>
+              <div class="donnees-gestes">
+                <button class="btn btn-feuille" type="button" (click)="ouvrir('telecharger')">Télécharger mes données</button>
+                <button class="lien" type="button" (click)="ouvrir('supprimer')">Supprimer mon compte</button>
+              </div>
+            }
+          }
         </section>
       </div>
 
@@ -103,7 +161,15 @@ export class ProfilPage {
   private readonly lecteur = inject(LecteurService);
   private readonly toast = inject(ToastService);
 
+  private readonly espace = inject(EspaceApiService);
+  private readonly publique = inject(PublicApiService);
+  private readonly router = inject(Router);
+  private readonly injector = inject(Injector);
+
   readonly moi = this.session.moi;
+  /** Geste ouvert sur les données ; le mot de passe retapé ne sert qu'à lui et s'efface aussitôt. */
+  readonly geste = signal<'telecharger' | 'supprimer' | null>(null);
+  motDePasse = '';
   readonly contact = CONTACT;
   readonly longueur = LONGUEUR_MIN;
   readonly refus = signal('');
@@ -170,6 +236,72 @@ export class ProfilPage {
       this.nouveau = '';
       this.toast.success('Votre mot de passe est changé.');
     } catch (err) {
+      this.refus.set(apiErrorMessage(err));
+    } finally {
+      this.occupe.set(false);
+    }
+  }
+
+  ouvrir(g: 'telecharger' | 'supprimer'): void {
+    this.motDePasse = '';
+    this.refus.set('');
+    this.geste.set(g);
+    const id = g === 'telecharger' ? 'mdp-donnees' : 'mdp-suppression';
+    afterNextRender(() => document.getElementById(id)?.focus(), { injector: this.injector });
+  }
+
+  fermer(): void {
+    this.motDePasse = '';
+    this.refus.set('');
+    this.geste.set(null);
+  }
+
+  /** Billet de l'API des parents (mot de passe retapé), puis les données, lues une fois chez NavUp et remises en fichier. */
+  async telecharger(): Promise<void> {
+    if (this.occupe()) {
+      return;
+    }
+    if (this.motDePasse === '') {
+      this.refus.set('Saisissez votre mot de passe.');
+      return;
+    }
+    this.occupe.set(true);
+    this.refus.set('');
+    try {
+      const billet = await firstValueFrom(this.espace.billetDonnees(this.motDePasse));
+      this.motDePasse = '';
+      const donnees = await firstValueFrom(this.publique.donnees(billet));
+      telechargerDonnees(donnees, new Date().toISOString().slice(0, 10));
+      this.geste.set(null);
+      this.toast.success('Vos données sont téléchargées.');
+    } catch (err) {
+      this.motDePasse = '';
+      this.refus.set(apiErrorMessage(err));
+    } finally {
+      this.occupe.set(false);
+    }
+  }
+
+  async supprimer(): Promise<void> {
+    if (this.occupe()) {
+      return;
+    }
+    if (this.motDePasse === '') {
+      this.refus.set('Saisissez votre mot de passe.');
+      return;
+    }
+    this.occupe.set(true);
+    this.refus.set('');
+    try {
+      await firstValueFrom(this.espace.supprimerCompte(this.motDePasse));
+      this.motDePasse = '';
+      // L'API a fermé toutes les sessions : on oublie la nôtre, sans lui redemander de la fermer
+      this.lecteur.arreter();
+      this.session.vider();
+      this.toast.success('Votre demande est enregistrée et votre espace est fermé. NavUp efface vos données dans le mois.');
+      void this.router.navigateByUrl('/connexion');
+    } catch (err) {
+      this.motDePasse = '';
       this.refus.set(apiErrorMessage(err));
     } finally {
       this.occupe.set(false);
