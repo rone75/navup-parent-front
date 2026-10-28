@@ -105,6 +105,14 @@ export interface Voisin {
   date_deblocage: string;
 }
 
+/**
+ * Un bloc du texte d'une fiche, mot pour mot : navup-api le lit dans le PDF et le met en blocs, le front le met en page.
+ * Le surtitre est la rubrique de la fiche (« Psychologie et développement »).
+ */
+export type BlocFiche =
+  | { type: 'surtitre' | 'titre' | 'intertitre' | 'paragraphe' | 'mention'; texte: string }
+  | { type: 'liste'; elements: string[] };
+
 export interface Sujet {
   id_sujet: number;
   numero: number;
@@ -114,7 +122,8 @@ export interface Sujet {
   semaine: { numero: number; titre: string | null };
   /** Adresse signée, valable quelques heures : le sujet se redemande quand elle ne répond plus. */
   audio: { url: string; duree: number | null; taille: number } | null;
-  fiche: { pages: string[]; largeur: number | null; hauteur: number | null; pdf: string } | null;
+  /** `texte` : null quand la fiche n'a pas pu être mise en blocs ; elle se montre alors en images. */
+  fiche: { texte: BlocFiche[] | null; pages: string[]; largeur: number | null; hauteur: number | null; pdf: string } | null;
   progression: Progression;
   precedent: Voisin | null;
   suivant: Voisin | null;

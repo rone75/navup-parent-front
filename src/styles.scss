@@ -1444,6 +1444,86 @@ li:first-child > .etiquette {
   border-radius: 6px;
   background: var(--porte);
 }
+/* La fiche en texte : les mots du client, mot pour mot, sur une feuille tenue par l'aimant bleu (celui de la fiche
+   réelle de la page publique), à la taille du texte de lecture. Au-dessus, les gestes vers la fiche d'origine. */
+.fiche-gestes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 1.25rem;
+  max-width: none;
+  margin: 0 0 0.5rem;
+}
+/* Le libellé du geste qui bascule : les deux tiennent la place du plus long, celui qui se tait est invisible et muet */
+.fiche-bascule {
+  display: inline-grid;
+  text-align: start;
+}
+.fiche-bascule > span {
+  grid-area: 1 / 1;
+}
+.fiche-bascule > .muet {
+  visibility: hidden;
+}
+.fiche-tete {
+  margin-bottom: 1.75rem;
+  padding-bottom: 1.25rem;
+  border-bottom: var(--trait) solid var(--filet);
+}
+.fiche-tete h2 {
+  font-size: clamp(1.625rem, 1.3rem + 1.1vw, 2.125rem);
+  line-height: 1.08;
+}
+/* La rubrique de la fiche : une précision, écrite sous le titre */
+.fiche-tete p {
+  margin: 0.6rem 0 0;
+  color: var(--encre-2);
+  font-size: var(--t-petit);
+  font-weight: 650;
+}
+.fiche-texte h3 {
+  margin: 2.25rem 0 0.5rem;
+  font-size: 1.375rem;
+}
+.fiche-texte .fiche-tete + h3 {
+  margin-top: 0;
+}
+.fiche-texte ul {
+  margin: 0 0 1rem;
+  padding: 0;
+  list-style: none;
+}
+/* La phrase qui annonce une liste (« Soyez attentif si vous observez : ») reste contre elle */
+.fiche-texte p:has(+ ul) {
+  margin-bottom: 0.5rem;
+}
+.fiche-texte li {
+  position: relative;
+  max-width: 68ch;
+  padding-left: 1.4rem;
+  text-wrap: pretty;
+}
+.fiche-texte li + li {
+  margin-top: 0.45rem;
+}
+/* La puce de la fiche : un point d'encre, centré sur la première ligne */
+.fiche-texte li::before {
+  content: '';
+  position: absolute;
+  top: calc(0.775em - 0.225rem);
+  left: 0.25rem;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: var(--encre);
+}
+.fiche-texte .fiche-mention {
+  margin-top: 2.25rem;
+  padding-top: 1rem;
+  border-top: var(--trait) solid var(--filet);
+  color: var(--encre-2);
+  font-size: var(--t-petit);
+}
 .voisins {
   display: grid;
   gap: 0.25rem;

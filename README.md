@@ -82,7 +82,7 @@ Aucun identifiant n'est demandé : les scripts préparent leurs parents d'essai 
 4. Mettre en pause, fermer l'onglet, rouvrir le lendemain : « Continuer » reprend au même endroit, le son repart.
 5. Changer la vitesse, avancer dans la piste au doigt : la lecture suit.
 6. « Ajouter à l'écran d'accueil », rouvrir depuis l'icône : l'espace s'ouvre, la session est gardée.
-7. Lire une fiche en entier, puis « Ouvrir la fiche en PDF » : le PDF s'ouvre et se zoome.
+7. Lire une fiche en entier sans zoomer, puis « Voir la fiche d'origine » (les pages en images) et « Ouvrir la fiche en PDF » : le PDF s'ouvre et se zoome.
 
 ## Déploiement
 

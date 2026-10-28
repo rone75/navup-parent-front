@@ -48,7 +48,7 @@ Un programme parental qui **ne promet pas de solution miracle** et le dit (« Le
 - Première livraison : page publique avec achat, création du mot de passe, connexion, accueil, programme, sujet (fiche et lecteur audio), progression, profil.
 - Étape 6b (4 octobre 2026) : le visiteur choisit lui-même un créneau de rendez-vous découverte sur la page publique (confirmation par e-mail, invitation de calendrier, lien pour déplacer ou annuler jusqu'à 12 h avant) ; le parent inscrit prend son rendez-vous d'accompagnement depuis son espace, un seul à venir à la fois. Durées (30 et 45 min) et canaux (visio, téléphone) restent à confirmer par Nabil.
 - Reportés : annonces, ressources, communauté, notifications push, hors-ligne, application native.
-- La fiche est le PDF officiel du client, montré tel quel : ses pages sont rendues en images, et le PDF s'ouvre à côté. Son texte ne se réécrit pas.
+- La fiche est le texte officiel du client, dit mot pour mot (décidé par Erwan le 28 octobre 2026, à la place de « montré tel quel » : une page A4 réduite à un téléphone de 390 px donnait un texte de 11 px). La Tour de contrôle lit le texte dans le PDF et le met en blocs (titre, rubrique, intertitres, paragraphes, puces, mention), et ne le garde que s'il est identique, blancs mis à part, à celui du PDF ; l'appli le met en page pour l'écran, sans en changer, retirer ni ajouter un mot. La fiche d'origine (ses pages en images) et le PDF restent à un geste. Une fiche dont le plan n'est pas reconnu se montre en images, comme avant.
 - Les montants viennent de l'API : la page n'écrit aucun prix en dur.
 - Tout est en français.
 - Non tranché par le client : la durée d'accès après la fin (trente jours par défaut), une seule session par compte, le texte définitif des e-mails.
@@ -82,9 +82,9 @@ Deux phrases du texte fourni ne correspondent pas à ce qui est construit et son
 1. **Juger sur pièces.** La page publique montre le vrai programme (une fiche, un extrait, les sujets) plutôt que d'en parler.
 2. **Jamais en retard.** Rien ne compte les jours manqués ; ce qui est débloqué attend le parent.
 3. **Deux gestes.** De l'ouverture de l'espace au contenu de la semaine : « Continuer », et c'est là.
-4. **La fiche est celle du client.** On la montre telle qu'elle est écrite, on ne la résume pas.
+4. **La fiche est celle du client.** On la dit telle qu'elle est écrite, mot pour mot, on ne la résume pas ; l'original reste à un geste.
 5. **Dire ce qui est vrai.** Pas de promesse de résultat, pas de preuve fabriquée, un prix lu dans l'outil.
 
 ## Accessibility & Inclusion
 
-Texte de 16 px au moins, contraste suffisant sur les fonds pastel, commandes du lecteur utilisables au clavier et annoncées aux lecteurs d'écran, information jamais portée par la seule couleur, animations coupées quand le système le demande. Les pages d'une fiche sont des images de texte : le PDF d'origine reste à un geste, pour le zoom et la lecture d'écran.
+Texte de 16 px au moins, contraste suffisant sur les fonds pastel, commandes du lecteur utilisables au clavier et annoncées aux lecteurs d'écran, information jamais portée par la seule couleur, animations coupées quand le système le demande. Une fiche se lit en texte, à 16 px au moins, qui se zoome et s'entend au lecteur d'écran ; ses pages en images et son PDF restent à un geste.

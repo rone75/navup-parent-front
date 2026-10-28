@@ -22,6 +22,7 @@ Première livraison (faite) : page publique avec achat, accès par lien, connexi
 - **L'API décide** : état de l'accès, semaine en cours, dates, totaux, « terminé ». Le front n'en déduit aucun, et ne lit jamais l'horloge de l'appareil pour débloquer quoi que ce soit.
 - Le jeton de session est dans `localStorage['navup_parent_token']` : c'est la seule clé du stockage local. Aucune donnée du parent ni du programme n'y entre, ni dans l'URL.
 - Un jeton de lien d'accès ne reste jamais dans une adresse : lu dans le fragment, retiré par `history.replaceState`, envoyé dans un corps de requête.
+- **La fiche** est le texte du client, mot pour mot : `fiche.texte` (blocs mis par navup-api, `Formation::rendreTexte()`) se met en page, ne se réécrit, ne se résume ni ne se réordonne (seule la rubrique passe sous le titre). La fiche d'origine (`fiche.pages`, chargées à la demande) et le PDF restent à un geste ; sans `texte`, les images.
 - Le son : un seul élément `<audio>` (`LecteurService`), jamais de `play()` hors d'un geste, « terminé » jamais déduit de l'écoute.
 - Jamais de `alert`, `confirm` ou `prompt`. Aucun compteur de jours manqués, point, classement ni relance culpabilisante.
 - Textes de la page publique : ceux de NavUp, mot pour mot. Ne rien inventer : ni témoignage, ni garantie, ni présentation du fondateur, ni texte légal.

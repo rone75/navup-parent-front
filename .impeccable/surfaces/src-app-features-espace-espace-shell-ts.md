@@ -11,7 +11,7 @@ related_targets: []
 
 **Tâche, information, états** : « Continuer » mène au sujet à reprendre. Semaine terminée, disponible, verrouillée avec sa date. Sujet à commencer, en cours, terminé (geste du parent). Accès ouvert, pas commencé, suspendu, fermé, programme terminé. Écoute : lecture, pause, reprise à la dernière position, vitesse, ±15 s.
 
-**Contraintes** : le serveur décide de tout ce qui est débloqué ; rien ne compte les jours manqués ; aucun point ni classement ; la fiche est l'image du PDF du client, le PDF reste à un geste ; cibles de 44 px, texte de 16 px.
+**Contraintes** : le serveur décide de tout ce qui est débloqué ; rien ne compte les jours manqués ; aucun point ni classement ; la fiche est le texte du client, mot pour mot, mis en page pour l'écran ; sa fiche d'origine (pages en images) et le PDF restent à un geste ; cibles de 44 px, texte de 16 px.
 
 **Monde** : celui de la page publique (la porte du frigo), plus calme. La navigation est une colonne d'aimants à mots (l'aimant bleu pour la page en cours) : à gauche sur ordinateur, couchée en barre basse sur téléphone ; la poignée reste un décor sur le bord droit de la porte, comme sur la page publique. Une semaine est une feuille ; l'aimant dit son état (orange : en cours ; étoile : terminée ; feuille pâlie et cadenas : à venir). Le lecteur est le poste : sur ordinateur à côté de la fiche, sur téléphone en barre basse qui s'ouvre.
 

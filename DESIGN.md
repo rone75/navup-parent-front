@@ -232,6 +232,7 @@ La palette est celle du client, contraignante (cahier de l'écosystème §2.2) :
 - **Display** (900, `clamp(2.75rem, 1.5rem + 4.8vw, 5.25rem)`, 1.02) : le `h1` d'une page. La feuille-titre de la page publique le règle plus bas (`clamp(2.1rem, 0.6rem + 3.6vw, 4.25rem)`) pour que « L'accompagnement » tienne sur une ligne ; dans l'espace et sur les pages d'une seule feuille, le `h1` prend la taille Headline.
 - **Headline** (900, `clamp(2rem, 1.3rem + 2.4vw, 3rem)`, 1.02) : titre d'une rubrique ou d'une feuille ; largeur bornée à 18ch en tête de rubrique.
 - **Title** (900, 1.5rem, 1.15) : titre d'une semaine, d'un geste (« Écouter », « Lire », « Essayer »), d'un intertitre de texte long.
+- **Fiche en texte** : son titre entre Title et Headline (900, `clamp(1.625rem, 1.3rem + 1.1vw, 2.125rem)`, 1.08), sous le `h1` du sujet ; ses intertitres un cran sous Title (900, 1.375rem, 1.15), pour que sur un téléphone (titre à 26 px) ils restent nettement en dessous du titre.
 - **Chiffre** (900, de 1.25rem à 3.25rem selon la place, 1) : les numéros de sujet (toujours sur deux chiffres : « 01 ») et le prix. Même police que les titres, en bleu pour un numéro, à l'encre pour un prix.
 - **Chapo** (420, 1.1875rem, 1.55) : la phrase sous un titre de page ou de rubrique, la liste à coches (560).
 - **Body** (420, 1.0625rem, 1.55 ; 1rem sous 640 px) : le texte. Paragraphes bornés à 68ch, `text-wrap: pretty` ; titres en `text-wrap: balance`. Chiffres tabulaires partout.
@@ -312,7 +313,7 @@ L'aimant est un disque de 2,25 rem, centré sur le bord haut de sa feuille, ou c
 - **Rond :** disque de 44 px (64 px pour lecture/pause), une icône, un `aria-label`.
 - **Appui :** le bouton descend d'un pixel. **Désactivé :** aplat `feuille-2`, texte `encre-2`.
 - **Focus :** contour de 3 px à 3 px d'écart, bleu ; orange sur un bouton ou sur fond bleu.
-- **Lien-geste :** un lien souligné au trait, 650, bleu, dont la zone fait 44 px de haut ; pour un geste discret (« Voir les 12 semaines », « Ouvrir la fiche en PDF », « Je préfère y revenir »).
+- **Lien-geste :** un lien souligné au trait, 650, bleu, dont la zone fait 44 px de haut ; pour un geste discret (« Voir les 12 semaines », « Voir la fiche d'origine », « Ouvrir la fiche en PDF », « Je préfère y revenir »).
 
 ### Vos données
 Une feuille du profil, après « NavUp ». Une phrase, puis deux gestes : « Télécharger mes données » (aimant feuille) et « Supprimer mon compte » (lien souligné, jamais un bouton qui attire). Chacun s'ouvre en place dans la feuille, avec le mot de passe à retaper. La suppression dit d'abord, en liste clé / valeur, « Tout de suite », « Dans le mois » et « Ce qui reste », conseille de télécharger ses données avant, et ne propose qu'un seul bouton plein : « Supprimer mon compte », couleur alerte (`--alerte`, blanc dessus), à côté du lien « Garder mon compte ». C'est le seul bouton d'alerte de l'appli.
@@ -327,7 +328,15 @@ Une feuille du profil, après « NavUp ». Une phrase, puis deux gestes : « Té
 ### Les pièces rapportées
 - **Forme :** fond blanc, trait d'encre, coins de 6 px, penchée par `--penche`, tenue par un aimant.
 - **Fiche :** la vraie première page d'une fiche du client, telle quelle. **Photo :** une illustration du client avec une marge blanche de 0,5 rem, comme un tirage.
-- Dans l'espace, les pages d'une fiche sont des images bordées du trait, droites, empilées ; le PDF d'origine reste à un geste.
+- Dans l'espace, la fiche d'origine (ses pages en images, bordées du trait, droites, empilées) n'est plus qu'à un geste de la fiche en texte.
+### La fiche en texte
+La page d'un sujet dit la fiche du client mot pour mot, mise en page pour l'écran : le texte de lecture (17 px, 16 px sur téléphone), là où une page A4 réduite à 390 px n'en donnait que 11.
+- **Feuille :** une feuille droite, tenue au milieu par l'aimant bleu, celui de la fiche réelle de la page publique.
+- **Tête :** le titre de la fiche (police des titres, de 1,625 à 2,125 rem), puis sa rubrique dessous (« Psychologie et développement », label 650 `encre-2`) : la rubrique est une précision, jamais un petit intitulé au-dessus du titre. Un filet `feuille-2` sépare la tête du texte.
+- **Texte :** intertitres en police des titres (1,375 rem, voir Hierarchy ; 2,25 rem au-dessus, 0,5 rem dessous), paragraphes et puces en texte de lecture bornés à 68ch, jamais justifiés. La puce est un point d'encre de 0,45 rem, centré sur la première ligne ; la phrase qui annonce une liste reste contre elle (0,5 rem).
+- **Mention :** « © NavUp… » en dernier, en label `encre-2`, sous un filet `feuille-2`.
+- **Gestes :** au-dessus de la feuille, deux liens-gestes qui ne bougent pas d'un mode à l'autre (le geste qui bascule garde la place de son plus long libellé) : « Voir la fiche d'origine » (les pages en images remplacent le texte ; le geste devient « Lire le texte ») et « Ouvrir la fiche en PDF ». Les images ne se chargent qu'à la demande.
+- Une fiche sans texte (plan non reconnu par la Tour de contrôle) se montre en images, avec le PDF dessous.
 
 ### Le semainier à cases
 - Une feuille aimantée qui montre une semaine comme une grille à cocher : en ligne les sujets (numéro bleu, titre), en colonne les trois gestes (« Écouter », « Lire », « Essayer »), et dans chaque case un carré vide de 1,5 rem au trait (fond blanc, coins de 5 px). Les cases sont vides : c'est au parent de les cocher.
@@ -366,7 +375,7 @@ Composant `prise-rdv`, le même partout (page publique, lien de gestion, espace)
 - **Do** écrire tout survol sous `@media (hover: hover)`, et donner 44 px à toute commande au doigt.
 - **Do** garder le texte de lecture à 17 px (16 px sur téléphone) et le texte secondaire à 15 px au moins, en `encre` ou `encre-2`.
 - **Do** lire le prix dans l'API et le passer par la fonction d'affichage ; sans réponse, ne pas montrer de chiffre.
-- **Do** montrer les vraies pièces : la fiche du client telle qu'elle est écrite, un vrai extrait, les vrais titres des quarante sujets. Un texte provisoire se signale comme provisoire sur la page.
+- **Do** montrer les vraies pièces : la fiche du client telle qu'elle est écrite (mot pour mot dans l'espace, son original à un geste), un vrai extrait, les vrais titres des quarante sujets. Un texte provisoire se signale comme provisoire sur la page.
 - **Do** réserver le penché et le mouvement « se poser » aux pièces rapportées de la page publique.
 - **Do** respecter « réduire les animations » : rien ne se pose, rien ne glisse, l'aiguille reste au repos.
 

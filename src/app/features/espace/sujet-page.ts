@@ -1,12 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, effect, inject, input, signal, untracked } from '@angular/core';
+import { Component, computed, effect, inject, input, signal, untracked } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { accesRefuse, apiErrorMessage, dateDeblocage } from '../../core/api-error';
 import { EspaceApiService } from '../../core/espace-api.service';
 import { jourEcrit, numero } from '../../core/format';
 import { LecteurService } from '../../core/lecteur.service';
-import { Sujet } from '../../core/models';
+import { BlocFiche, Sujet } from '../../core/models';
 import { SessionService } from '../../core/session.service';
 import { ToastService } from '../../core/toast.service';
 import { Icon } from '../../shared/icon';
@@ -14,8 +14,9 @@ import { Poste } from '../../shared/poste';
 
 /**
  * Un sujet : sa fiche pratique à l'écran, et le poste qui joue son audio (à côté de la fiche sur un écran large,
- * en barre au bas de l'écran sur un téléphone). La fiche est le PDF de NavUp, montré tel quel : ses pages sont des
- * images, le PDF reste à un geste.
+ * en barre au bas de l'écran sur un téléphone). La fiche est le texte de NavUp, mot pour mot, mis en page pour
+ * l'écran (navup-api l'a lu dans le PDF et mis en blocs) ; la fiche d'origine (ses pages en images) et le PDF
+ * restent à un geste. Une fiche sans texte se montre en images, comme le PDF.
  * Les adresses de la fiche et de l'audio sont signées et ne valent que quelques heures : une image qui ne répond
  * plus fait redemander le sujet, une fois.
  */
@@ -41,7 +42,50 @@ import { Poste } from '../../shared/poste';
       <div class="sujet">
         <article aria-label="Fiche pratique">
           @if (s.fiche; as f) {
-            @if (f.pages.length > 0) {
+            @let t = texte();
+            @if (t !== null) {
+              <p class="fiche-gestes">
+                <!-- Les deux libellés tiennent la même place : les gestes ne bougent pas d'un mode à l'autre -->
+                <button class="lien" type="button" (click)="origine.set(!origine())">
+                  <app-icon nom="feuille" />
+                  <span class="fiche-bascule">
+                    <span [class.muet]="origine()">Voir la fiche d'origine</span>
+                    <span [class.muet]="!origine()">Lire le texte</span>
+                  </span>
+                </button>
+                <a class="lien" [href]="f.pdf" target="_blank" rel="noopener"><app-icon nom="externe" /> Ouvrir la fiche en PDF</a>
+              </p>
+            }
+            @if (t !== null && !origine()) {
+              <div class="feuille aimantee fiche-texte">
+                <span class="aimant bleu" aria-hidden="true"></span>
+                @if (t.titre !== null || t.rubrique !== null) {
+                  <div class="fiche-tete">
+                    @if (t.titre !== null) {
+                      <h2>{{ t.titre }}</h2>
+                    }
+                    @if (t.rubrique !== null) {
+                      <p>{{ t.rubrique }}</p>
+                    }
+                  </div>
+                }
+                @for (b of t.corps; track $index) {
+                  @if (b.type === 'liste') {
+                    <ul>
+                      @for (e of b.elements; track $index) {
+                        <li>{{ e }}</li>
+                      }
+                    </ul>
+                  } @else if (b.type === 'paragraphe') {
+                    <p>{{ b.texte }}</p>
+                  } @else if (b.type === 'mention') {
+                    <p class="fiche-mention">{{ b.texte }}</p>
+                  } @else {
+                    <h3>{{ b.texte }}</h3>
+                  }
+                }
+              </div>
+            } @else if (f.pages.length > 0) {
               <div class="fiche-pages">
                 @for (page of f.pages; track $index) {
                   <img
@@ -56,10 +100,12 @@ import { Poste } from '../../shared/poste';
                 }
               </div>
             }
-            <p class="actions">
-              <a class="lien" [href]="f.pdf" target="_blank" rel="noopener"><app-icon nom="externe" /> Ouvrir la fiche en PDF</a>
-              <span class="secondaire petit">Pour zoomer, ou pour la lecture d'écran.</span>
-            </p>
+            @if (t === null) {
+              <p class="actions">
+                <a class="lien" [href]="f.pdf" target="_blank" rel="noopener"><app-icon nom="externe" /> Ouvrir la fiche en PDF</a>
+                <span class="secondaire petit">Pour zoomer, ou pour la lecture d'écran.</span>
+              </p>
+            }
           } @else {
             <p class="secondaire">La fiche de ce sujet arrive bientôt.</p>
           }
@@ -124,6 +170,32 @@ export class SujetPage {
   readonly sujet = signal<Sujet | null>(null);
   readonly refus = signal<{ titre: string; texte: string } | null>(null);
   readonly occupe = signal(false);
+  /** La fiche d'origine (ses pages en images) à la place du texte : un geste du parent, oublié d'un sujet à l'autre. */
+  readonly origine = signal(false);
+
+  /**
+   * Le texte de la fiche, dans l'ordre du PDF, sauf sa rubrique : elle s'écrit sous le titre, jamais au-dessus.
+   * Null : la fiche se montre en images.
+   */
+  readonly texte = computed(() => {
+    const blocs = this.sujet()?.fiche?.texte ?? null;
+    if (blocs === null || blocs.length === 0) {
+      return null;
+    }
+    let titre: string | null = null;
+    let rubrique: string | null = null;
+    const corps: BlocFiche[] = [];
+    for (const b of blocs) {
+      if (b.type === 'titre' && titre === null) {
+        titre = b.texte;
+      } else if (b.type === 'surtitre' && rubrique === null) {
+        rubrique = b.texte;
+      } else {
+        corps.push(b);
+      }
+    }
+    return { titre, rubrique, corps };
+  });
 
   private seq = 0;
   private rafraichi = false;
@@ -143,6 +215,7 @@ export class SujetPage {
     // Un sujet se vide dès qu'on en demande un autre
     this.sujet.set(null);
     this.refus.set(null);
+    this.origine.set(false);
     this.rafraichi = false;
     try {
       const s = await firstValueFrom(this.api.sujet(id));

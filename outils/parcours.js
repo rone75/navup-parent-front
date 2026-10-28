@@ -138,7 +138,29 @@ function suivre(page) {
     r = await api(API_ESPACE, 'GET', `sujets/?id=${premier.id_sujet}`, { jeton: session });
     const sujet = r.json.sujet;
     verifier(r.status === 200 && sujet.audio && sujet.fiche.pages.length >= 2 && sujet.fiche.pdf, 'sujet : un audio, les pages de la fiche, son PDF');
-    verifier(!JSON.stringify(sujet).match(/[a-f0-9]{64}\.(mp3|pdf|jpg)/), "sujet : aucun nom de fichier du disque ne sort de l'API");
+    verifier(!JSON.stringify(sujet).match(/[a-f0-9]{64}\.(mp3|pdf|jpg|json)/), "sujet : aucun nom de fichier du disque ne sort de l'API");
+    // La fiche en texte : des blocs connus, et mot pour mot le texte du PDF (blancs mis à part, lu par pdftotext)
+    const blocs = sujet.fiche.texte;
+    const types = new Set((blocs || []).map((b) => b.type));
+    verifier(
+      Array.isArray(blocs) && ['titre', 'intertitre', 'paragraphe', 'liste'].every((t) => types.has(t)) && [...types].every((t) => ['surtitre', 'titre', 'intertitre', 'paragraphe', 'liste', 'mention'].includes(t)),
+      'fiche : son texte en blocs (titre, intertitres, paragraphes, listes)',
+      [...types].join(','),
+    );
+    if (Array.isArray(blocs)) {
+      const pdf = Buffer.from(await (await fetch(sujet.fiche.pdf)).arrayBuffer());
+      const fichier = require('node:path').join(require('node:os').tmpdir(), `navup-fiche-${process.pid}.pdf`);
+      fs.writeFileSync(fichier, pdf);
+      try {
+        const lu = require('node:child_process').execFileSync('pdftotext', ['-layout', '-enc', 'UTF-8', fichier, '-'], { encoding: 'utf8' });
+        const nous = blocs.map((b) => (b.type === 'liste' ? b.elements.join('') : b.texte)).join('');
+        verifier(lu.replace(/\s+/g, '') === nous.replace(/\s+/g, ''), 'fiche : le texte servi est celui du PDF, mot pour mot');
+      } catch (e) {
+        nonVerifie('fiche : le texte servi est celui du PDF, mot pour mot', `pdftotext : ${e.message.split('\n')[0]}`);
+      } finally {
+        fs.rmSync(fichier, { force: true });
+      }
+    }
 
     let m = await fetch(sujet.audio.url, { headers: { Range: 'bytes=0-1' } });
     verifier(m.status === 206 && m.headers.get('content-range')?.startsWith('bytes 0-1/') && m.headers.get('content-length') === '2', 'audio : une plage de deux octets répond 206, avec sa taille');
@@ -254,9 +276,27 @@ function suivre(page) {
 
     // Sujet : la fiche, l'écoute, la reprise, « terminé »
     await page.locator('a.etiquette').nth(1).click();
+    await page.waitForSelector('.fiche-texte h3');
+    const lecture = await page.evaluate(() => ({
+      taille: Math.min(...[...document.querySelectorAll('.fiche-texte p, .fiche-texte li')].filter((e) => !e.closest('.fiche-tete') && !e.classList.contains('fiche-mention')).map((e) => parseFloat(getComputedStyle(e).fontSize))),
+      deborde: document.documentElement.scrollWidth > window.innerWidth,
+      images: document.querySelectorAll('.fiche-pages img').length,
+    }));
+    verifier(lecture.taille >= 16 && !lecture.deborde && lecture.images === 0, 'sujet : la fiche se lit en texte, à 16 px au moins sur un téléphone de 390 px, sans images chargées', JSON.stringify(lecture));
+    // Le geste se trouve par son nom accessible : le libellé qui se tait n'y entre pas
+    const pdfAvant = await page.locator('.fiche-gestes a').boundingBox();
+    await page.getByRole('button', { name: "Voir la fiche d'origine", exact: true }).click();
     await page.waitForSelector('.fiche-pages img');
     await page.waitForFunction(() => [...document.querySelectorAll('.fiche-pages img')].slice(0, 1).every((i) => i.complete && i.naturalWidth > 0));
-    ok('sujet : la première page de la fiche est affichée');
+    const pdfApres = await page.locator('.fiche-gestes a').boundingBox();
+    verifier(
+      (await page.getByRole('button', { name: 'Lire le texte', exact: true }).count()) === 1 && (await page.locator('.fiche-texte').count()) === 0,
+      "sujet : « Voir la fiche d'origine » montre ses pages en images, à la place du texte",
+    );
+    verifier(pdfAvant.x === pdfApres.x && pdfAvant.y === pdfApres.y, "sujet : les gestes de la fiche ne bougent pas d'un mode à l'autre", `${pdfAvant.x},${pdfAvant.y} → ${pdfApres.x},${pdfApres.y}`);
+    await page.getByRole('button', { name: 'Lire le texte', exact: true }).click();
+    await page.waitForSelector('.fiche-texte h3');
+    verifier((await page.getAttribute('.fiche-gestes a', 'href')).includes('/media/'), 'sujet : le PDF reste à un geste');
     // Le premier chargement de l'audio est refusé une fois, comme une adresse expirée : le poste doit s'en remettre
     let bloque = true;
     await page.route('**/v1/media/**', (route) => {

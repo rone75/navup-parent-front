@@ -194,6 +194,11 @@ const seule = process.argv[3];
       await page.waitForSelector('.accueil');
       await capturer('accueil');
       await page.click('.espace-page header .btn-grand');
+      // La fiche en texte, puis sa fiche d'origine (les pages en images), à un geste
+      await page.waitForSelector('.fiche-texte h3');
+      await capturer('sujet-haut', { haut: true, cibles: '.fiche-gestes' });
+      await capturer('sujet');
+      await page.click('.fiche-gestes button');
       await page.waitForSelector('.fiche-pages img');
       // La première page de la fiche doit être décodée : sinon la capture montre un cadre vide
       await page.evaluate(async () => {
@@ -202,8 +207,7 @@ const seule = process.argv[3];
         // Deux images d'écran : l'image décodée est alors peinte
         await new Promise((suite) => requestAnimationFrame(() => requestAnimationFrame(suite)));
       });
-      await capturer('sujet-haut', { haut: true });
-      await capturer('sujet');
+      await capturer('sujet-origine-haut', { haut: true });
       await page.goto(BASE + '/espace/programme');
       await page.waitForSelector('.programme');
       await capturer('programme');
