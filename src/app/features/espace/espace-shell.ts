@@ -11,7 +11,7 @@ import { Bienvenue } from './bienvenue';
 import { EtatAcces } from './etat-acces';
 
 /**
- * Coque de l'espace personnel : la porte, sa poignée (la navigation : rail à gauche sur un écran large, barre basse
+ * Coque de l'espace personnel : la porte, ses aimants (la navigation : rail à gauche sur un écran large, barre basse
  * sur un téléphone) et le poste, qui joue d'une page à l'autre.
  * Elle décide de ce qui se montre : les mots de bienvenue à la première visite, l'état de l'accès quand il n'est pas
  * ouvert (le profil reste lisible), sinon la page demandée.

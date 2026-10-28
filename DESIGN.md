@@ -152,10 +152,16 @@ components:
     textColor: "{colors.encre}"
     rounded: "8px"
     padding: "0.35rem 0.9rem"
-  rail-lien-actif:
+  aimant-nav:
+    backgroundColor: "{colors.feuille}"
+    textColor: "{colors.encre}"
+    rounded: "{rounded.pilule}"
+    size: "3rem"
+  aimant-nav-hover:
+    backgroundColor: "{colors.feuille-2}"
+  aimant-nav-ici:
     backgroundColor: "{colors.bleu}"
     textColor: "{colors.blanc}"
-    rounded: "{rounded.pilule}"
   refus:
     backgroundColor: "{colors.alerte-fond}"
     textColor: "{colors.alerte}"
@@ -171,7 +177,7 @@ components:
 
 Tout l'écran est la porte en émail bleu clair du frigo familial : l'endroit de la maison où l'on aimante ce qui compte cette semaine. Il y a deux portes, celle du haut (le logo, un lien) et la grande (le contenu), séparées par un joint. Sur la porte tiennent des feuilles, chacune sous son aimant ; les sujets y sont des étiquettes numérotées ; le lecteur audio est un petit poste jaune posé là. Le système tient dans un seul fichier, `src/styles.scss` : des jetons, puis des classes globales, aucun style de composant.
 
-Tout est dessiné, rien n'imite la matière : un seul trait de 2 px à l'encre, des aplats, aucune ombre. La page publique et l'espace personnel sont la même porte. La première est plus bavarde (une vraie fiche et des photos posées de travers, un poste dont l'aiguille bouge avec le vrai son, un ticket de prix) ; le second est plus calme (les feuilles restent droites, la poignée devient la navigation, l'aimant dit l'état d'une semaine).
+Tout est dessiné, rien n'imite la matière : un seul trait de 2 px à l'encre, des aplats, aucune ombre. La page publique et l'espace personnel sont la même porte. La première est plus bavarde (une vraie fiche et des photos posées de travers, un poste dont l'aiguille bouge avec le vrai son, un ticket de prix) ; le second est plus calme (les feuilles restent droites, la navigation est une colonne d'aimants à mots, l'aimant dit l'état d'une semaine).
 
 Le ton du produit commande le reste : « sans pression ni culpabilisation ». La progression se dit en une phrase et en une rangée d'aimants, jamais en pourcentage ; une semaine à venir est une feuille pâlie qui porte sa date, jamais un compte à rebours.
 
@@ -189,7 +195,7 @@ Le ton du produit commande le reste : « sans pression ni culpabilisation ». La
 La palette est celle du client, contraignante (cahier de l'écosystème §2.2) : sept couleurs en aplat, plus quatre dérivés d'un ton et une paire d'alerte. Aucune autre teinte n'entre dans le système.
 
 ### Primary
-- **Bleu du logo** (`bleu`) : l'action. Bouton principal, aimant de la fiche réelle, entrée active de la navigation, numéros des étiquettes, liens, partie écoulée d'une piste audio, anneau de focus.
+- **Bleu du logo** (`bleu`) : l'action. Bouton principal, aimant de la fiche réelle, aimant de la page en cours dans la navigation, numéros des étiquettes, liens, partie écoulée d'une piste audio, anneau de focus.
 - **Bleu appuyé** (`bleu-2`) : le même bleu au survol d'une action ou d'un lien.
 
 ### Secondary
@@ -201,8 +207,8 @@ La palette est celle du client, contraignante (cahier de l'écosystème §2.2) :
 ### Neutral
 - **Émail de la porte** (`porte`) : le fond de toute page, en aplat, et le fond des deux portes.
 - **Ombre de l'émail** (`porte-2`) : un ton sous la porte. Filets entre deux lignes hors feuille, pointillés du ticket, lignes d'attente, piste de la barre de défilement.
-- **Blanc cassé de la feuille** (`feuille`) : tout ce qui se lit. Feuilles, poignée, bouton secondaire, cadran du poste.
-- **Pli de la feuille** (`feuille-2`) : un ton sous la feuille. Survol d'une étiquette ou d'une entrée de navigation, filets entre deux lignes d'une feuille, bouton désactivé.
+- **Blanc cassé de la feuille** (`feuille`) : tout ce qui se lit. Feuilles, aimants de navigation, poignée, bouton secondaire, cadran du poste.
+- **Pli de la feuille** (`feuille-2`) : un ton sous la feuille. Survol d'une étiquette ou d'un aimant de navigation, filets entre deux lignes d'une feuille, bouton désactivé.
 - **Blanc** (`blanc`) : les pièces rapportées (photo, fiche, ticket), les champs de saisie, les cases à cocher du semainier, le texte sur bleu.
 - **Encre** (`encre`) : le texte et le trait, partout.
 - **Encre délavée** (`encre-2`) : texte secondaire (durée, date, aide de champ, sujet pas encore ouvert). Teintée de l'encre, jamais un gris neutre.
@@ -211,7 +217,7 @@ La palette est celle du client, contraignante (cahier de l'écosystème §2.2) :
 ### Named Rules
 **La règle de l'aplat.** Une couleur est posée pleine, d'un bord à l'autre de sa forme. Pas de dégradé de teinte, pas de transparence décorative. La seule coupe permise est franche : la piste audio est bleue jusqu'à la position de lecture, puis feuille.
 
-**La règle de l'aimant qui parle.** Dans l'espace personnel, la couleur d'un aimant est un état, toujours doublé d'un mot écrit : orange nu pour la semaine en cours (« En cours »), orange à étoile pour une semaine terminée (« Terminée »), jaune pour une semaine disponible, couleur de feuille à cadenas pour une semaine à venir (« Disponible le… »). Sur la page publique, où rien n'a d'état, l'aimant d'une semaine prend la couleur de son pilier, et la légende des piliers est écrite au-dessus.
+**La règle de l'aimant qui parle.** Dans l'espace personnel, la couleur d'un aimant est un état, toujours doublé d'un mot écrit : orange nu pour la semaine en cours (« En cours »), orange à étoile pour une semaine terminée (« Terminée »), jaune pour une semaine disponible, couleur de feuille à cadenas pour une semaine à venir (« Disponible le… »). Dans la navigation, l'aimant bleu dit « vous êtes ici » : il est plein quand les autres sont couleur de feuille, et son mot passe en gras. Sur la page publique, où rien n'a d'état, l'aimant d'une semaine prend la couleur de son pilier, et la légende des piliers est écrite au-dessus.
 
 **La règle de l'attente pâle.** Ce qui n'est pas encore ouvert est plus pâle et en pointillés (feuille mêlée à 55 % de porte, trait en tirets), jamais grisé, jamais barré.
 
@@ -243,9 +249,9 @@ La page est un cadre centré (`max-width: 82rem`) fait de portes empilées, sép
 - **Deux colonnes inégales.** Les rubriques de la page publique et l'accueil de l'espace se partagent en 7/12 et 5/12 (ou l'inverse) : une feuille d'un côté, un propos ou une pièce de l'autre. La une est à parts égales : la feuille-titre à gauche, les pièces à droite (la fiche réelle sur deux rangs, la photo, et le poste qui déborde de 4,5 rem sur le coin de la fiche).
 - **Feuilles en grille.** Les douze semaines se rangent en `auto-fill` (colonnes de 17,5 rem au moins sur la page publique, 21 rem dans l'espace), avec 2 rem entre deux rangs pour laisser la place aux aimants.
 - **Page d'une seule feuille.** Accès, retour de paiement, textes légaux : une feuille aimantée centrée dans la grande porte, large de 32 rem (48 rem pour un texte long).
-- **Espace personnel.** Une seule porte : un rail de 7,25 rem à gauche, séparé par le trait, puis la page (`max-width: 76rem`). La page d'un sujet met la fiche à gauche et, à droite, une colonne de 19 à 24 rem qui reste en vue (`sticky`) : le poste, le geste « terminé », les sujets voisins.
+- **Espace personnel.** Une seule porte : un rail de 8,25 rem à gauche (le mot le plus long, « Rendez-vous », y tient sur une ligne), séparé par le trait, puis la page (`max-width: 76rem`). Les aimants du rail restent en vue pendant le défilement ; le logo part avec la page. La page d'un sujet met la fiche à gauche et, à droite, une colonne de 19 à 24 rem qui reste en vue (`sticky`) : le poste, le geste « terminé », les sujets voisins.
 
-Trois seuils. Sous 992 px (62 rem), les deux colonnes s'empilent. Sous 900 px (56,25 rem), la navigation descend en barre basse et le poste aussi. Sous 640 px (40 rem), le texte passe à 16 px, les portes s'arrondissent moins (20 px), la poignée décorative disparaît, les grilles de semaines passent à une colonne, les liens facultatifs de la porte du haut s'effacent. L'écran large compte autant que le téléphone : aucune des deux mises en page n'est le repli de l'autre.
+Trois seuils. Sous 992 px (62 rem), les deux colonnes s'empilent. Sous 900 px (56,25 rem), la navigation descend en barre basse et le poste aussi. Sous 640 px (40 rem), le texte passe à 16 px, les portes s'arrondissent moins (20 px), la poignée décorative disparaît (dès 900 px dans l'espace), les grilles de semaines passent à une colonne, les liens facultatifs de la porte du haut s'effacent. L'écran large compte autant que le téléphone : aucune des deux mises en page n'est le repli de l'autre.
 
 **La règle des 44 px.** Toute commande au doigt fait au moins 44 px (`--cible`) : boutons (48 px, 57 px en grand), liens-gestes, cases à cocher et leur ligne, vitesses du lecteur, curseur de piste, entrées de navigation.
 
@@ -276,8 +282,14 @@ L'aimant est un disque de 2,25 rem, centré sur le bord haut de sa feuille, ou c
 - **Joint :** 0,6 rem de fond nu entre deux portes et autour d'elles.
 
 ### La poignée
-- **Sur la page publique :** un décor. Une pilule verticale (1,1 rem sur 9 rem, aplat feuille, trait d'encre) à cheval sur le bord droit de la grande porte ; masquée sous 640 px.
-- **Dans l'espace :** la navigation. Une pilule feuille au trait d'encre qui contient trois entrées (icône de 1,5 rem au-dessus de son mot : Accueil, Programme, Profil). L'entrée active est un aplat bleu à texte blanc ; survol en `feuille-2`. Au-dessus de 900 px, elle est verticale, dans le rail de gauche, sous la pochette-logo. En dessous, elle se couche en barre fixe en bas de l'écran (24 rem de large au plus, fond `porte`, trait en haut, marge de sécurité de l'appareil respectée).
+- **Un décor, sur les deux portes :** une pilule verticale (1,1 rem sur 9 rem, aplat feuille, trait d'encre) à cheval sur le bord droit de la grande porte, à 2,5 rem sous son haut. Masquée sous 640 px sur la page publique ; dans l'espace, masquée sous 900 px, où la porte touche les bords de l'écran et où une pilule au bord passerait pour une barre de défilement.
+
+### La navigation de l'espace : des aimants à mots
+- **Forme :** quatre aimants posés sur la porte, sans contenant (Accueil, Programme, Rendez-vous, Profil). Chacun est un disque de 3 rem au trait d'encre, aplat feuille, son icône de 1,5 rem au milieu, et son mot dessous (label, 650). Le lien couvre l'aimant et le mot.
+- **Page en cours :** aimant bleu, icône blanche, mot en 750. La page d'un sujet allume « Programme ».
+- **Survol :** l'aimant passe en `feuille-2`. **Appui :** il descend d'un pixel, comme un bouton. **Focus :** l'anneau bleu (3 px à 3 px d'écart) entoure l'aimant, pas le mot.
+- **Au-dessus de 900 px :** en colonne dans le rail de gauche, sous la pochette-logo (3,25 rem, coins de 12 px), 0,75 rem entre deux entrées ; la colonne reste en vue pendant le défilement (`sticky`, à 1,5 rem du haut).
+- **En dessous :** la même rangée, couchée en barre fixe en bas de l'écran (fond `porte`, trait en haut, haute de `--barre` (4,5 rem) plus la marge de sécurité de l'appareil). Aimants de 2,25 rem (icône de 1,25 rem), sur une rangée de 27 rem au plus, en quatre colonnes égales quand la place le permet ; une colonne ne descend jamais sous la largeur de son mot, et 0,75 rem au moins (0,4 rem sous 360 px) sépare deux colonnes, pour que les quatre mots ne se lisent pas comme une seule ligne.
 
 ### La feuille et son aimant
 - **Feuille :** aplat `feuille`, trait d'encre, rayon de 18 px, marge intérieure de 1,25 à 2,25 rem. Variantes : **note** (aplat jaune, sans aimant ou avec aimant bleu) ; **attend** (pâlie, trait en tirets).

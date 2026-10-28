@@ -761,8 +761,39 @@ async function rendezVousEspace(browser) {
     deborde: document.documentElement.scrollWidth - window.innerWidth,
     coupes: [...document.querySelectorAll('.rail nav a')].filter((a) => a.scrollWidth > a.clientWidth + 1).length,
     entrees: document.querySelectorAll('.rail nav a').length,
+    // Le plus petit écart entre deux mots voisins : sous 8 px, la rangée se lit comme une seule ligne
+    ecart: (() => {
+      const mots = [...document.querySelectorAll('.rail nav a')].map((a) => {
+        const mot = document.createRange();
+        mot.selectNodeContents(a.lastChild);
+        return mot.getBoundingClientRect();
+      });
+      return Math.round(Math.min(...mots.slice(1).map((m, i) => m.left - mots[i].right)));
+    })(),
   }));
-  verifier(mesure.entrees === 4 && mesure.coupes === 0 && mesure.deborde <= 1, 'navigation à 390 px : quatre entrées, aucune coupée, la page ne déborde pas', JSON.stringify(mesure));
+  verifier(
+    mesure.entrees === 4 && mesure.coupes === 0 && mesure.ecart >= 8 && mesure.deborde <= 1,
+    'navigation à 390 px : quatre entrées, aucune coupée, 8 px au moins entre deux mots, la page ne déborde pas',
+    JSON.stringify(mesure),
+  );
+
+  // Écran large : les aimants de la navigation restent en vue en bas d'une longue page
+  await page.setViewportSize(VIEWPORTS.desktop);
+  await page.goto(BASE + '/espace/programme');
+  await page.waitForSelector('.programme');
+  // Saut immédiat : la page défile en douceur quand le mouvement n'est pas réduit
+  await page.evaluate(() => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' }));
+  const rail = await page.evaluate(() => {
+    const aimants = [...document.querySelectorAll('.rail nav a .ico')].map((i) => i.getBoundingClientRect());
+    return {
+      entrees: aimants.length,
+      petits: aimants.filter((r) => r.width < 44 || r.height < 44).length,
+      horsVue: aimants.filter((r) => r.top < 0 || r.bottom > window.innerHeight).length,
+      defile: Math.round(window.scrollY),
+    };
+  });
+  verifier(rail.entrees === 4 && rail.petits === 0 && rail.horsVue === 0 && rail.defile > 0, 'navigation à 1440 px : quatre aimants de 44 px au moins, en vue en bas du programme', JSON.stringify(rail));
+  await page.setViewportSize(VIEWPORTS.mobile);
 
   // La page publique visitée en étant connecté : le jeton de session ne part pas vers la Tour de contrôle
   const lus = page.waitForResponse((x) => x.url().endsWith('/public/creneaux/'));

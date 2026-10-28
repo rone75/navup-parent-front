@@ -13,17 +13,17 @@ related_targets: []
 
 **Contraintes** : le serveur décide de tout ce qui est débloqué ; rien ne compte les jours manqués ; aucun point ni classement ; la fiche est l'image du PDF du client, le PDF reste à un geste ; cibles de 44 px, texte de 16 px.
 
-**Monde** : celui de la page publique (la porte du frigo), plus calme. La poignée de la porte est la navigation sur ordinateur, une barre basse sur téléphone. Une semaine est une feuille ; l'aimant dit son état (orange : en cours ; étoile : terminée ; feuille pâlie et cadenas : à venir). Le lecteur est le poste : sur ordinateur à côté de la fiche, sur téléphone en barre basse qui s'ouvre.
+**Monde** : celui de la page publique (la porte du frigo), plus calme. La navigation est une colonne d'aimants à mots (l'aimant bleu pour la page en cours) : à gauche sur ordinateur, couchée en barre basse sur téléphone ; la poignée reste un décor sur le bord droit de la porte, comme sur la page publique. Une semaine est une feuille ; l'aimant dit son état (orange : en cours ; étoile : terminée ; feuille pâlie et cadenas : à venir). Le lecteur est le poste : sur ordinateur à côté de la fiche, sur téléphone en barre basse qui s'ouvre.
 
 ## Direction contract
 
 THESIS: La même porte de frigo, côté famille : la feuille de la semaine en cours est celle qui porte l'aimant orange. Refuse le tableau de bord de cours en ligne : anneaux de progression, cartes de modules, pourcentages.
 
-OWN-WORLD: Émail #C2DCFF, feuilles #F7F8EF au trait d'encre de 2 px, sans ombre ; aimants en aplat pour l'état ; étiquettes numérotées pour les sujets ; poignée-navigation ; titres Londrina Solid, texte Archivo.
+OWN-WORLD: Émail #C2DCFF, feuilles #F7F8EF au trait d'encre de 2 px, sans ombre ; aimants en aplat pour l'état ; étiquettes numérotées pour les sujets ; aimants de navigation, la page en cours en bleu ; titres Londrina Solid, texte Archivo.
 
 STORY: Le parent ouvre, lit où il en est en une phrase, appuie sur « Continuer », écoute en lisant la fiche, marque terminé.
 
-FIRST VIEWPORT: Accueil : « Bonjour Camille », la feuille de la semaine en cours sous son aimant orange avec ses sujets en étiquettes, le bouton « Continuer » en aimant bleu, la phrase de progression ; la poignée de navigation à gauche (barre basse sur téléphone).
+FIRST VIEWPORT: Accueil : « Bonjour Camille », la feuille de la semaine en cours sous son aimant orange avec ses sujets en étiquettes, le bouton « Continuer » en aimant bleu, la phrase de progression ; les aimants de navigation à gauche (barre basse sur téléphone).
 
 FORM: La porte du frigo, 6e de la liste ; clé 511f413d (surface établie dans le monde de la page publique).
 
